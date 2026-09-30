@@ -1,0 +1,9 @@
+# Vetted's settings for this repository, read from the pull request's base
+# commit. Worst case: US$0.0104 per review and at most 19 paid reviews a day
+# (US$0.20), so the pilot can never cost more than about US$6 a month.
+version: 1
+model: gpt-6-luna
+reasoning_effort: low
+daily_budget_usd: 0.2
+max_output_tokens: 8000
+review_label: ai-review
