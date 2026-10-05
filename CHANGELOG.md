@@ -4,6 +4,10 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+### Changed
+
+- Vetted pilot switched from shadow mode to opt-in on 2026-10-14, after the two-week shadow period (issue V1): pull requests labelled `ai-review` now get Vetted's comments.
+
 ## [0.1.0] - 2026-10-06
 
 First release: Discreet, a privacy gateway that replaces Singapore personal data with placeholders before a request reaches an AI model and restores it in the answer, refuses automated eligibility decisions, and keeps a tamper-evident audit log. Reviewed and approved by Michael Mendoza on 2026-10-06.
