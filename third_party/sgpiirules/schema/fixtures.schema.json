@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/makoydev/sg-pii-rules/schema/fixtures.schema.json",
+  "title": "sg-pii-rules conformance fixtures",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["entity", "cases"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "entity": { "type": "string", "pattern": "^[A-Z][A-Z0-9_]*$" },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "kind", "text", "expect"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+          "kind": { "enum": ["true_positive", "hard_negative", "mixed"] },
+          "text": { "type": "string" },
+          "expect": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["entity", "value"],
+              "properties": {
+                "entity": { "type": "string" },
+                "value": { "type": "string", "minLength": 1 }
+              }
+            }
+          },
+          "note": { "type": "string" }
+        }
+      }
+    }
+  }
+}

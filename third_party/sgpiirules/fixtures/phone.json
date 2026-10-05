@@ -1,0 +1,383 @@
+{
+  "$schema": "../schema/fixtures.schema.json",
+  "entity": "PHONE",
+  "cases": [
+    {
+      "id": "phone-tp-001",
+      "kind": "true_positive",
+      "text": "Contact number: 37988298",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "37988298"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-002",
+      "kind": "true_positive",
+      "text": "{\"mobile\": \"61387792\"}",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "61387792"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-003",
+      "kind": "true_positive",
+      "text": "row,phone\n1,8167 5247",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "8167 5247"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-004",
+      "kind": "true_positive",
+      "text": "Call 9844 3165 after 6pm.",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "9844 3165"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-005",
+      "kind": "true_positive",
+      "text": "tel:3416-3839",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "3416-3839"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-006",
+      "kind": "true_positive",
+      "text": "const fallbackPhone = '6273-9555'",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "6273-9555"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-007",
+      "kind": "true_positive",
+      "text": "Contact number: +65 8427 9814",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+65 8427 9814"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-008",
+      "kind": "true_positive",
+      "text": "{\"mobile\": \"+65 9028 3087\"}",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+65 9028 3087"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-009",
+      "kind": "true_positive",
+      "text": "row,phone\n1,+6532349943",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+6532349943"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-010",
+      "kind": "true_positive",
+      "text": "Call +6560473510 after 6pm.",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+6560473510"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-011",
+      "kind": "true_positive",
+      "text": "tel:+65-8935-4759",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+65-8935-4759"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-012",
+      "kind": "true_positive",
+      "text": "const fallbackPhone = '+65-9476-5519'",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+65-9476-5519"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-013",
+      "kind": "true_positive",
+      "text": "Contact number: (65) 3348 5062",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "(65) 3348 5062"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-014",
+      "kind": "true_positive",
+      "text": "{\"mobile\": \"(65) 6629 0650\"}",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "(65) 6629 0650"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-015",
+      "kind": "true_positive",
+      "text": "row,phone\n1,(+65)83254137",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "(+65)83254137"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-016",
+      "kind": "true_positive",
+      "text": "Call (+65)99407325 after 6pm.",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "(+65)99407325"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-017",
+      "kind": "true_positive",
+      "text": "tel:0065 3928 1916",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "0065 3928 1916"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-018",
+      "kind": "true_positive",
+      "text": "const fallbackPhone = '0065 6561 8922'",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "0065 6561 8922"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-019",
+      "kind": "true_positive",
+      "text": "Contact number: 6582106396",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "6582106396"
+        }
+      ]
+    },
+    {
+      "id": "phone-tp-020",
+      "kind": "true_positive",
+      "text": "{\"mobile\": \"6599861361\"}",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "6599861361"
+        }
+      ]
+    },
+    {
+      "id": "phone-hn-leading-0",
+      "kind": "hard_negative",
+      "text": "Reference 08868964",
+      "expect": [],
+      "note": "No eight-digit Singapore numbers start with 0 (IMDA NNP Table 2.1)."
+    },
+    {
+      "id": "phone-hn-leading-1",
+      "kind": "hard_negative",
+      "text": "Reference 12883474",
+      "expect": [],
+      "note": "No eight-digit Singapore numbers start with 1 (IMDA NNP Table 2.1)."
+    },
+    {
+      "id": "phone-hn-leading-2",
+      "kind": "hard_negative",
+      "text": "Reference 26231714",
+      "expect": [],
+      "note": "No eight-digit Singapore numbers start with 2 (IMDA NNP Table 2.1)."
+    },
+    {
+      "id": "phone-hn-leading-4",
+      "kind": "hard_negative",
+      "text": "Reference 46738490",
+      "expect": [],
+      "note": "No eight-digit Singapore numbers start with 4 (IMDA NNP Table 2.1)."
+    },
+    {
+      "id": "phone-hn-leading-5",
+      "kind": "hard_negative",
+      "text": "Reference 59780057",
+      "expect": [],
+      "note": "No eight-digit Singapore numbers start with 5 (IMDA NNP Table 2.1)."
+    },
+    {
+      "id": "phone-hn-leading-7",
+      "kind": "hard_negative",
+      "text": "Reference 70134883",
+      "expect": [],
+      "note": "Leading 7 is for SMS short codes, not eight-digit numbers (IMDA NNP Table 2.1)."
+    },
+    {
+      "id": "phone-hn-nine-digits",
+      "kind": "hard_negative",
+      "text": "ID 951764689",
+      "expect": [],
+      "note": "Nine digits."
+    },
+    {
+      "id": "phone-hn-seven-digits",
+      "kind": "hard_negative",
+      "text": "ID 8559448",
+      "expect": [],
+      "note": "Seven digits."
+    },
+    {
+      "id": "phone-hn-after-letter",
+      "kind": "hard_negative",
+      "text": "S98612291",
+      "expect": [],
+      "note": "No word boundary between a letter and the digits."
+    },
+    {
+      "id": "phone-hn-country-code-too-long",
+      "kind": "hard_negative",
+      "text": "65912345678",
+      "expect": [],
+      "note": "Country code plus nine digits."
+    },
+    {
+      "id": "phone-hn-toll-free",
+      "kind": "hard_negative",
+      "text": "Hotline 1800 123 4567",
+      "expect": [],
+      "note": "Toll-free number: 11 digits, and a business number, not a subscriber line (IMDA NNP §8.1)."
+    },
+    {
+      "id": "phone-hn-premium",
+      "kind": "hard_negative",
+      "text": "Vote 1900 112 2334",
+      "expect": [],
+      "note": "Premium-rate number (IMDA NNP §9.1)."
+    },
+    {
+      "id": "phone-hn-us-number",
+      "kind": "hard_negative",
+      "text": "US office +1 650 912 3456",
+      "expect": [],
+      "note": "United States number."
+    },
+    {
+      "id": "phone-hn-uk-number",
+      "kind": "hard_negative",
+      "text": "UK mobile +44 7911 123456",
+      "expect": [],
+      "note": "United Kingdom number."
+    },
+    {
+      "id": "phone-hn-split-4-5",
+      "kind": "hard_negative",
+      "text": "Order 8123-45678",
+      "expect": [],
+      "note": "Wrong grouping: four then five digits."
+    },
+    {
+      "id": "phone-hn-double-space",
+      "kind": "hard_negative",
+      "text": "9123  4567",
+      "expect": [],
+      "note": "Two separators."
+    },
+    {
+      "id": "phone-hn-price",
+      "kind": "hard_negative",
+      "text": "Total SGD 9,123.45",
+      "expect": [],
+      "note": "An amount."
+    },
+    {
+      "id": "phone-hn-date",
+      "kind": "hard_negative",
+      "text": "Settled on 20260928",
+      "expect": [],
+      "note": "A date written as eight digits, starting with 2."
+    },
+    {
+      "id": "phone-hn-emergency",
+      "kind": "hard_negative",
+      "text": "Dial 995 for emergencies",
+      "expect": [],
+      "note": "Three-digit emergency code."
+    },
+    {
+      "id": "phone-hn-inside-email",
+      "kind": "hard_negative",
+      "text": "Reply to 94378773@example.com",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "94378773@example.com"
+        }
+      ],
+      "note": "The digits look like a mobile number, but the longer email match wins (SPEC.md §4)."
+    },
+    {
+      "id": "phone-mixed",
+      "kind": "mixed",
+      "text": "Mobile +65 8055 8024, hotline 1800 123 4567",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+65 8055 8024"
+        }
+      ],
+      "note": "Only the mobile number is a personal phone number."
+    }
+  ]
+}

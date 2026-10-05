@@ -1,0 +1,412 @@
+{
+  "$schema": "../schema/fixtures.schema.json",
+  "entity": "EMAIL",
+  "cases": [
+    {
+      "id": "email-tp-001",
+      "kind": "true_positive",
+      "text": "{\"email\": \"gadiboye40@example.org\"}",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "gadiboye40@example.org"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-002",
+      "kind": "true_positive",
+      "text": "row,email\n1,yefu_suli@example.net",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "yefu_suli@example.net"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-003",
+      "kind": "true_positive",
+      "text": "<a href=\"mailto:ance+liga@mail.example.com\">email us</a>",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "ance+liga@mail.example.com"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-004",
+      "kind": "true_positive",
+      "text": "From: Support <oror-peka.87@dept.example.org>",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "oror-peka.87@dept.example.org"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-005",
+      "kind": "true_positive",
+      "text": "const adminEmail = 'LIBO.taen@sub-team.example.net'",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "LIBO.taen@sub-team.example.net"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-006",
+      "kind": "true_positive",
+      "text": "Please cc gajo.anri@clinic.test, thanks",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "gajo.anri@clinic.test"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-007",
+      "kind": "true_positive",
+      "text": "Contact: jonaorce64@example.com.",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "jonaorce64@example.com"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-008",
+      "kind": "true_positive",
+      "text": "{\"email\": \"yeli_endi@example.org\"}",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "yeli_endi@example.org"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-009",
+      "kind": "true_positive",
+      "text": "row,email\n1,susu+pesu@example.net",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "susu+pesu@example.net"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-010",
+      "kind": "true_positive",
+      "text": "<a href=\"mailto:yeri-wuwu.51@mail.example.com\">email us</a>",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "yeri-wuwu.51@mail.example.com"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-011",
+      "kind": "true_positive",
+      "text": "From: Support <HIAN.tadi@dept.example.org>",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "HIAN.tadi@dept.example.org"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-012",
+      "kind": "true_positive",
+      "text": "const adminEmail = 'hiri.cemu@sub-team.example.net'",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "hiri.cemu@sub-team.example.net"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-013",
+      "kind": "true_positive",
+      "text": "Please cc ansuyeye58@clinic.test, thanks",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "ansuyeye58@clinic.test"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-014",
+      "kind": "true_positive",
+      "text": "Contact: lili_joga@example.com.",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "lili_joga@example.com"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-015",
+      "kind": "true_positive",
+      "text": "{\"email\": \"yedi+hisu@example.org\"}",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "yedi+hisu@example.org"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-016",
+      "kind": "true_positive",
+      "text": "row,email\n1,namu-boor.66@example.net",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "namu-boor.66@example.net"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-017",
+      "kind": "true_positive",
+      "text": "<a href=\"mailto:WUAN.diwu@mail.example.com\">email us</a>",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "WUAN.diwu@mail.example.com"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-018",
+      "kind": "true_positive",
+      "text": "From: Support <anwu.anor@dept.example.org>",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "anwu.anor@dept.example.org"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-019",
+      "kind": "true_positive",
+      "text": "const adminEmail = 'ritayean38@sub-team.example.net'",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "ritayean38@sub-team.example.net"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-020",
+      "kind": "true_positive",
+      "text": "Please cc gaor_anka@clinic.test, thanks",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "gaor_anka@clinic.test"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-021",
+      "kind": "true_positive",
+      "text": "Contact: muna+fuen@example.com.",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "muna+fuen@example.com"
+        }
+      ]
+    },
+    {
+      "id": "email-hn-npm-version",
+      "kind": "hard_negative",
+      "text": "npm install left-pad@1.3.0",
+      "expect": [],
+      "note": "Package and version."
+    },
+    {
+      "id": "email-hn-npm-scoped",
+      "kind": "hard_negative",
+      "text": "import from @scope/pkg@2.1.0",
+      "expect": [],
+      "note": "Scoped package and version."
+    },
+    {
+      "id": "email-hn-npm-range",
+      "kind": "hard_negative",
+      "text": "\"react@^18.2.0\"",
+      "expect": [],
+      "note": "Version range."
+    },
+    {
+      "id": "email-hn-no-tld",
+      "kind": "hard_negative",
+      "text": "ssh admin@localhost",
+      "expect": [],
+      "note": "No top-level domain."
+    },
+    {
+      "id": "email-hn-bare-host",
+      "kind": "hard_negative",
+      "text": "user@intranet",
+      "expect": [],
+      "note": "No top-level domain."
+    },
+    {
+      "id": "email-hn-one-letter-tld",
+      "kind": "hard_negative",
+      "text": "a@b.c",
+      "expect": [],
+      "note": "Top-level domain of one letter."
+    },
+    {
+      "id": "email-hn-ip-domain",
+      "kind": "hard_negative",
+      "text": "x@192.0.2.10",
+      "expect": [],
+      "note": "Domain is an IP address (a documentation range, RFC 5737)."
+    },
+    {
+      "id": "email-hn-double-at",
+      "kind": "hard_negative",
+      "text": "user@@example.com",
+      "expect": [],
+      "note": "Empty local part."
+    },
+    {
+      "id": "email-hn-mention",
+      "kind": "hard_negative",
+      "text": "Thanks @reviewer for the catch",
+      "expect": [],
+      "note": "A mention."
+    },
+    {
+      "id": "email-hn-decorator",
+      "kind": "hard_negative",
+      "text": "@Component({ selector: \"app\" })",
+      "expect": [],
+      "note": "A decorator."
+    },
+    {
+      "id": "email-hn-css-at-rule",
+      "kind": "hard_negative",
+      "text": "@media screen and (max-width: 600px)",
+      "expect": [],
+      "note": "A CSS at-rule."
+    },
+    {
+      "id": "email-hn-at-symbol-price",
+      "kind": "hard_negative",
+      "text": "Buy 3@$2.00 each",
+      "expect": [],
+      "note": "Price notation."
+    },
+    {
+      "id": "email-hn-trailing-at",
+      "kind": "hard_negative",
+      "text": "Sent to team@",
+      "expect": [],
+      "note": "Nothing after the @."
+    },
+    {
+      "id": "email-hn-leading-at",
+      "kind": "hard_negative",
+      "text": "@example.com",
+      "expect": [],
+      "note": "Nothing before the @."
+    },
+    {
+      "id": "email-hn-space-inside",
+      "kind": "mixed",
+      "text": "jo an@example.com",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "an@example.com"
+        }
+      ],
+      "note": "The space splits it; only the part after it is an address."
+    },
+    {
+      "id": "email-hn-numeric-tld",
+      "kind": "hard_negative",
+      "text": "build@host.123",
+      "expect": [],
+      "note": "Numeric top-level domain."
+    },
+    {
+      "id": "email-hn-obfuscated",
+      "kind": "hard_negative",
+      "text": "jo [at] example [dot] com",
+      "expect": [],
+      "note": "Obfuscated address."
+    },
+    {
+      "id": "email-hn-version-tag",
+      "kind": "hard_negative",
+      "text": "git tag v1.2@rc",
+      "expect": [],
+      "note": "Not an address."
+    },
+    {
+      "id": "email-hn-docker-digest",
+      "kind": "hard_negative",
+      "text": "image@sha256:abc123",
+      "expect": [],
+      "note": "Container digest."
+    },
+    {
+      "id": "email-hn-at-in-path",
+      "kind": "hard_negative",
+      "text": "https://registry.example.com/@types/node",
+      "expect": [],
+      "note": "A path segment."
+    },
+    {
+      "id": "email-hn-underscore-domain",
+      "kind": "hard_negative",
+      "text": "x@exa_mple.com",
+      "expect": [],
+      "note": "Underscores are not allowed in host names."
+    },
+    {
+      "id": "email-mixed",
+      "kind": "mixed",
+      "text": "Owner yeen.dibo@example.org; deps: lodash@4.17.21",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "yeen.dibo@example.org"
+        }
+      ]
+    },
+    {
+      "id": "email-tp-numeric-local",
+      "kind": "true_positive",
+      "text": "SMS gateway 85880486@example.net",
+      "expect": [
+        {
+          "entity": "EMAIL",
+          "value": "85880486@example.net"
+        }
+      ],
+      "note": "Reported once, as EMAIL, although the local part looks like a phone number."
+    }
+  ]
+}

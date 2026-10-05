@@ -1,0 +1,491 @@
+{
+  "$schema": "../schema/fixtures.schema.json",
+  "entity": "NRIC_LIKE",
+  "cases": [
+    {
+      "id": "nric-like-tp-001",
+      "kind": "true_positive",
+      "text": "Applicant NRIC: S3722536D",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "S3722536D"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-002",
+      "kind": "true_positive",
+      "text": "{\"nric\": \"S1626954J\", \"plan\": \"basic\"}",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "S1626954J"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-003",
+      "kind": "true_positive",
+      "text": "row,id,status\n1,S2388876J,active",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "S2388876J"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-004",
+      "kind": "true_positive",
+      "text": "WARN lookup failed for member S1850281A at 10:42",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "S1850281A"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-005",
+      "kind": "true_positive",
+      "text": "const testMemberId = 'T8761135A'",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "T8761135A"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-006",
+      "kind": "true_positive",
+      "text": "Please update the record for T2415783H.",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "T2415783H"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-007",
+      "kind": "true_positive",
+      "text": "Holder (T9439209E) confirmed by phone",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "T9439209E"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-008",
+      "kind": "true_positive",
+      "text": "FIN T3357819F expires next month",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "T3357819F"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-009",
+      "kind": "true_positive",
+      "text": "NRIC：F1531465R",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "F1531465R"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-010",
+      "kind": "true_positive",
+      "text": "F1710584L",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "F1710584L"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-011",
+      "kind": "true_positive",
+      "text": "Applicant NRIC: F4076733V",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "F4076733V"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-012",
+      "kind": "true_positive",
+      "text": "{\"nric\": \"F3451782S\", \"plan\": \"basic\"}",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "F3451782S"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-013",
+      "kind": "true_positive",
+      "text": "row,id,status\n1,G4277574M,active",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "G4277574M"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-014",
+      "kind": "true_positive",
+      "text": "WARN lookup failed for member G3174817O at 10:42",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "G3174817O"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-015",
+      "kind": "true_positive",
+      "text": "const testMemberId = 'G0860760L'",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "G0860760L"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-016",
+      "kind": "true_positive",
+      "text": "Please update the record for G8140776V.",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "G8140776V"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-017",
+      "kind": "true_positive",
+      "text": "Holder (M9247298V) confirmed by phone",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "M9247298V"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-018",
+      "kind": "true_positive",
+      "text": "FIN M8639508Q expires next month",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "M8639508Q"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-019",
+      "kind": "true_positive",
+      "text": "NRIC：M5119669L",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "M5119669L"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-020",
+      "kind": "true_positive",
+      "text": "M6994053K",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "M6994053K"
+        }
+      ]
+    },
+    {
+      "id": "nric-like-tp-ica-example",
+      "kind": "true_positive",
+      "text": "Format example from ICA: M1234567B",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "M1234567B"
+        }
+      ],
+      "note": "Illustrative example in the ICA media release of 12 Jul 2021; fails the checksum."
+    },
+    {
+      "id": "nric-like-tp-pdpc-example",
+      "kind": "true_positive",
+      "text": "e.g. S1234567A",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "S1234567A"
+        }
+      ],
+      "note": "Illustrative example in the PDPC NRIC guidelines; fails the checksum."
+    },
+    {
+      "id": "nric-like-tp-order-number",
+      "kind": "true_positive",
+      "text": "Order number T1234567A shipped",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "T1234567A"
+        }
+      ],
+      "note": "NRIC-shaped order number."
+    },
+    {
+      "id": "nric-like-tp-m-with-fg-letter",
+      "kind": "true_positive",
+      "text": "M0000008M",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "M0000008M"
+        }
+      ],
+      "note": "Remainder 8: the F/G table gives M but the M table gives J."
+    },
+    {
+      "id": "nric-like-tp-f-with-m-letter",
+      "kind": "true_positive",
+      "text": "F0000004J",
+      "expect": [
+        {
+          "entity": "NRIC_LIKE",
+          "value": "F0000004J"
+        }
+      ],
+      "note": "Remainder 8: the M table gives J but the F/G table gives M."
+    },
+    {
+      "id": "nric-like-hn-valid-01",
+      "kind": "hard_negative",
+      "text": "Applicant NRIC: S3065355F",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "S3065355F"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-02",
+      "kind": "hard_negative",
+      "text": "{\"nric\": \"T1588608G\", \"plan\": \"basic\"}",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "T1588608G"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-03",
+      "kind": "hard_negative",
+      "text": "row,id,status\n1,F8007665R,active",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "F8007665R"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-04",
+      "kind": "hard_negative",
+      "text": "WARN lookup failed for member G4534663W at 10:42",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "G4534663W"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-05",
+      "kind": "hard_negative",
+      "text": "const testMemberId = 'M1839003L'",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "M1839003L"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-06",
+      "kind": "hard_negative",
+      "text": "Please update the record for S5973034G.",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "S5973034G"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-07",
+      "kind": "hard_negative",
+      "text": "Holder (T0779753I) confirmed by phone",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "T0779753I"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-08",
+      "kind": "hard_negative",
+      "text": "FIN F0664134L expires next month",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "F0664134L"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-09",
+      "kind": "hard_negative",
+      "text": "NRIC：G9619016L",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "G9619016L"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-valid-10",
+      "kind": "hard_negative",
+      "text": "M2791665U",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "M2791665U"
+        }
+      ],
+      "note": "A valid NRIC is reported as NRIC, never NRIC_LIKE."
+    },
+    {
+      "id": "nric-like-hn-prefix-a",
+      "kind": "hard_negative",
+      "text": "Ticket A1234567D",
+      "expect": [],
+      "note": "A is not an NRIC/FIN prefix."
+    },
+    {
+      "id": "nric-like-hn-prefix-e",
+      "kind": "hard_negative",
+      "text": "Part E1234567D",
+      "expect": [],
+      "note": "E is not an NRIC/FIN prefix."
+    },
+    {
+      "id": "nric-like-hn-too-short",
+      "kind": "hard_negative",
+      "text": "S123456D",
+      "expect": [],
+      "note": "Six digits."
+    },
+    {
+      "id": "nric-like-hn-too-long",
+      "kind": "hard_negative",
+      "text": "S12345678D",
+      "expect": [],
+      "note": "Eight digits."
+    },
+    {
+      "id": "nric-like-hn-embedded-left",
+      "kind": "hard_negative",
+      "text": "code ABS1234567D",
+      "expect": [],
+      "note": "No word boundary before the prefix."
+    },
+    {
+      "id": "nric-like-hn-embedded-right",
+      "kind": "hard_negative",
+      "text": "token S1234567DZ",
+      "expect": [],
+      "note": "No word boundary after the check letter."
+    },
+    {
+      "id": "nric-like-hn-trailing-digit",
+      "kind": "hard_negative",
+      "text": "S1234567D9",
+      "expect": [],
+      "note": "No word boundary after the check letter."
+    },
+    {
+      "id": "nric-like-hn-masked",
+      "kind": "hard_negative",
+      "text": "Holder S****567D",
+      "expect": [],
+      "note": "Masked NRIC; not a full number."
+    },
+    {
+      "id": "nric-like-hn-partial",
+      "kind": "hard_negative",
+      "text": "last four: 567D",
+      "expect": [],
+      "note": "Partial NRIC (PDPC guidelines §5.2); out of scope for these detectors."
+    },
+    {
+      "id": "nric-like-hn-separator",
+      "kind": "hard_negative",
+      "text": "S1234567-D",
+      "expect": [],
+      "note": "Separator inside the number."
+    },
+    {
+      "id": "nric-like-mixed",
+      "kind": "mixed",
+      "text": "Holder F3652570M and dependant M0745789Q",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "F3652570M"
+        },
+        {
+          "entity": "NRIC_LIKE",
+          "value": "M0745789Q"
+        }
+      ]
+    }
+  ]
+}
