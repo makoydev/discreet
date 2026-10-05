@@ -1,8 +1,9 @@
 name: Vetted
 
 # Vetted (https://github.com/makoydev/vetted) reviews every pull request in
-# this repository: shadow mode (audit record only, no comments) for the
-# first two weeks, until 2026-10-14, then opt-in with the `ai-review` label.
+# this repository. It ran in shadow mode (audit record only, no comments)
+# for the first two weeks; from 2026-10-14 it is opt-in: it comments on pull
+# requests labelled `ai-review` and keeps an audit record for every one.
 # Pinned to the exact commit of the v0.1.0 release.
 on:
   pull_request:
@@ -21,5 +22,5 @@ jobs:
       - name: Vetted AI Code Review
         uses: makoydev/vetted@2ae958e0fbf14fb9c74c2423059a49762927a192 # v0.1.0
         with:
-          mode: shadow
+          mode: opt-in
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
