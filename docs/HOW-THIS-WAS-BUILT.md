@@ -19,6 +19,10 @@
 - 458 Go tests; every issue's code was broken deliberately and the tests caught it, with two breaks first written wrongly (they failed to compile) and redone.
 - AI mistakes this milestone are listed below, with how each was caught. None reached `next` uncaught: they were caught by tests, the gate, the merge helper's refusal, or reading output.
 
+## Milestone 2 review
+
+On 2026-10-06 Michael reviewed the batch in `next` with the Milestone 2 decision report (https://makoydev.github.io/discreet/m2-review/), accepted all nine ADRs without changes, and approved the release. Claude Code then rebase-merged `next` into `main` and tagged `v0.1.0` on his behalf; the merge appears under his account but was performed by Claude Code after his approval.
+
 ## Decisions changed on human review
 
 | Date | Proposed by Claude Code | Changed by Michael to | Where |

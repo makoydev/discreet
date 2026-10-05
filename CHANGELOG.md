@@ -4,6 +4,10 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-10-06
+
+First release: Discreet, a privacy gateway that replaces Singapore personal data with placeholders before a request reaches an AI model and restores it in the answer, refuses automated eligibility decisions, and keeps a tamper-evident audit log. Reviewed and approved by Michael Mendoza on 2026-10-06.
+
 ### Added
 
 - Go 1.27 project skeleton: the `discreet` command with `serve`, `audit verify`, `audit export` and `version`, each describing itself until it is built (issue D1).

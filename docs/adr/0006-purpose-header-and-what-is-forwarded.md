@@ -1,6 +1,6 @@
 # 0006. Callers declare a purpose; eligibility decisions are refused; only known fields are forwarded
 
-Status: drafted by Claude Code, awaiting Michael's review
+Status: accepted. Drafted by Claude Code; reviewed and accepted by Michael Mendoza on 2026-10-06.
 Date: 2026-10-05
 
 ## Context
