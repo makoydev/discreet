@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discreet Demo</title>
+<meta name="description" content="See what a privacy gateway does to personal data before it reaches an AI model, and what comes back.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Public+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="demo.css">
+</head>
+<body>
+<header class="wrap">
+  <div class="top"><span>AI Governance Toolkit · Discreet</span><button type="button" id="theme" class="theme">Theme</button></div>
+  <h1>Send personal data to an AI. <em>Without sending it.</em></h1>
+  <p class="lede">Discreet sits between an app and an AI model. It swaps NRICs, phone numbers, cards and other personal data for placeholders on the way out, puts them back on the way in, and records every request in a tamper-evident log.</p>
+  <p class="notice"><b>Please don't type real personal data.</b> Use the made-up examples. This demo runs on a <b>mock model</b>: no AI is called and nothing costs money. Discreet keeps only counts and keyed fingerprints of what you send, never the text.</p>
+</header>
+
+<main class="wrap">
+  <section class="composer card" aria-label="Your message">
+    <div class="row">
+      <label for="purpose">Purpose <span class="hint">(apps must say what each request is for)</span></label>
+      <select id="purpose">
+        <option>claims summary</option>
+        <option>appointment reminder</option>
+        <option>card dispute reply</option>
+        <option>ticket triage</option>
+        <option>automated eligibility decision</option>
+      </select>
+    </div>
+    <label for="text" class="sr">Message</label>
+    <textarea id="text" rows="4" spellcheck="false"></textarea>
+    <div class="row buttons">
+      <button type="button" id="example" class="btn">Load a made-up example</button>
+      <button type="button" id="send" class="btn primary">Send through Discreet →</button>
+    </div>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="panes" aria-label="What happened">
+    <article class="pane card"><h2><span class="n">1</span> What the app sent</h2><div class="body" id="p1"></div></article>
+    <article class="pane card ai"><h2><span class="n">2</span> What the AI saw</h2><div class="body" id="p2"></div></article>
+    <article class="pane card ai"><h2><span class="n">3</span> What the AI answered</h2><div class="body" id="p3"></div></article>
+    <article class="pane card"><h2><span class="n">4</span> What the app got back</h2><div class="body" id="p4"></div></article>
+  </section>
+
+  <section class="card audit" aria-label="Audit record">
+    <h2>The audit record for this request</h2>
+    <p class="hint">One line in an append-only log. It holds counts and keyed fingerprints, never the text, and the hash of the line before it: change any byte and <code>discreet audit verify</code> fails, naming the record.</p>
+    <div id="chips" class="chips"></div>
+    <pre id="record"></pre>
+  </section>
+</main>
+
+<footer class="wrap">
+  <p><a href="https://github.com/makoydev/discreet">Source code</a> · <a href="https://makoydev.github.io/vetted/">Vetted, the sister project</a> · Detection rules: <a href="https://github.com/makoydev/sg-pii-rules">sg-pii-rules</a></p>
+  <p>Part of the AI Governance Toolkit by Michael Mendoza. All example data is made up.</p>
+</footer>
+<script src="demo.js"></script>
+</body>
+</html>

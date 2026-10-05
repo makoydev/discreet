@@ -76,6 +76,7 @@ func (s *Server) Handler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("POST /v1/chat/completions", s.chatCompletions)
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, _ *http.Request) { w.Write([]byte("ok\n")) })
+	s.demoRoutes(mux)
 	return mux
 }
 
@@ -143,17 +144,11 @@ func newID() string {
 }
 
 func (s *Server) chatCompletions(w http.ResponseWriter, r *http.Request) {
-	start := time.Now()
 	id := newID()
 	w.Header().Set("X-Discreet-Request-Id", id)
-	log := s.cfg.Logger.With("request_id", id)
-	if !s.cfg.RateLimit.Allow(r) {
-		log.Info("rate limited")
-		w.Header().Set("Retry-After", "10")
-		writeError(w, http.StatusTooManyRequests, "rate_limited", "too many requests from this address; try again shortly")
+	if !s.allow(w, r, id) {
 		return
 	}
-
 	var req chatRequest
 	if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, s.cfg.MaxBodyBytes)).Decode(&req); err != nil {
 		writeError(w, http.StatusBadRequest, "invalid_request", "request body is not valid JSON or is too large")
@@ -167,8 +162,8 @@ func (s *Server) chatCompletions(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusBadRequest, "invalid_request", "messages must not be empty")
 		return
 	}
-	texts := make([]string, len(req.Messages))
-	for i, m := range req.Messages {
+	c := call{id: id, purpose: strings.TrimSpace(r.Header.Get("X-Discreet-Purpose")), model: req.Model, temperature: req.Temperature}
+	for _, m := range req.Messages {
 		if !allowedRoles[m.Role] {
 			writeError(w, http.StatusBadRequest, "invalid_request", fmt.Sprintf("message role %q is not supported", m.Role))
 			return
@@ -178,146 +173,71 @@ func (s *Server) chatCompletions(w http.ResponseWriter, r *http.Request) {
 			writeError(w, http.StatusBadRequest, "invalid_request", err.Error())
 			return
 		}
-		texts[i] = t
+		c.roles, c.texts = append(c.roles, m.Role), append(c.texts, t)
 	}
-
-	// The purpose is required, recorded with any personal data removed,
-	// and refused outright for decisions about people's eligibility.
-	rawPurpose := strings.TrimSpace(r.Header.Get("X-Discreet-Purpose"))
-	if rawPurpose == "" {
-		writeError(w, http.StatusBadRequest, "missing_purpose", "set the X-Discreet-Purpose header to say what this request is for, for example \"claims summary\"")
-		return
+	if req.MaxCompletionTokens != nil {
+		c.maxTokens = *req.MaxCompletionTokens
+	} else if req.MaxTokens != nil {
+		c.maxTokens = *req.MaxTokens
 	}
-	purpose := s.scrub(rawPurpose)
 
 	// Only a valid access token reaches the real model; anyone else gets
 	// the free mock, so the public endpoint can never spend money.
-	up, tenant, real := s.cfg.Upstream, s.cfg.Tenant, false
+	c.up, c.tenant = s.cfg.Upstream, s.cfg.Tenant
 	if t, ok := s.cfg.Tokens.Tenant(r); ok {
-		tenant = t
+		c.tenant = t
 		if s.cfg.Real != nil {
-			up, real = s.cfg.Real, true
+			c.up, c.real = s.cfg.Real, true
 		}
 	}
-	w.Header().Set("X-Discreet-Upstream", up.Name())
-	model := req.Model
-	if real {
-		if req.Model != "" && req.Model != s.cfg.Model {
-			writeError(w, http.StatusBadRequest, "model_not_allowed", fmt.Sprintf("this gateway only sends requests to %s", s.cfg.Model))
-			return
-		}
-		model = s.cfg.Model
-	}
-	rec := audit.Record{RequestID: id, Tenant: tenant, Purpose: purpose, Upstream: up.Name(), Model: model}
-	if deniedPurpose(rawPurpose, s.cfg.Policy.DeniedPurposes) {
-		rec.Decision, rec.Reason = audit.RefusedPurpose, "purpose refused by policy"
-		if _, ok := s.finish(w, log, rec, start); !ok {
-			return
-		}
-		writeError(w, http.StatusForbidden, "purpose_refused", "Discreet does not take part in automated decisions about people's eligibility. A person must make that decision.")
+	w.Header().Set("X-Discreet-Upstream", c.up.Name())
+
+	o := s.process(r.Context(), c)
+	if o.status != http.StatusOK {
+		writeError(w, o.status, o.code, o.message)
 		return
 	}
-
-	// Protect every message in one session, so placeholders are consistent.
-	session := protect.NewSession(s.cfg.Policy, s.cfg.Vault)
-	defer session.Close()
-	msgs := make([]upstream.Message, len(texts))
-	for i, t := range texts {
-		protected, err := session.Protect(t, s.cfg.Engine.Detect(t))
-		var blocked *protect.BlockedError
-		if errors.As(err, &blocked) {
-			rec.Decision, rec.Reason, rec.Entities = audit.BlockedEntity, blocked.Error(), session.Counts()
-			if _, ok := s.finish(w, log, rec, start); !ok {
-				return
-			}
-			writeError(w, http.StatusForbidden, "entity_blocked", blocked.Error())
-			return
-		}
-		msgs[i] = upstream.Message{Role: req.Messages[i].Role, Content: protected}
-	}
-	rec.Entities = session.Counts()
-	promptJSON, _ := json.Marshal(texts)
-	rec.PromptHMAC = s.cfg.Audit.HMAC(string(promptJSON))
-
-	maxTokens := 0
-	if req.MaxCompletionTokens != nil {
-		maxTokens = *req.MaxCompletionTokens
-	} else if req.MaxTokens != nil {
-		maxTokens = *req.MaxTokens
-	}
-	if maxTokens <= 0 || maxTokens > s.cfg.MaxOutputTokens {
-		maxTokens = s.cfg.MaxOutputTokens
-	}
-
-	// Real calls reserve their worst-case cost first (ADR 0007).
-	if real {
-		promptBytes := 0
-		for _, m := range msgs {
-			promptBytes += len(m.Content)
-		}
-		ceiling := s.cfg.Price.Ceiling(promptBytes, len(msgs), maxTokens)
-		if !s.cfg.Budget.Reserve(ceiling) {
-			rec.Decision, rec.Reason = audit.RefusedBudget, fmt.Sprintf("daily budget reached (this request could cost up to US$%.4f)", ceiling)
-			if _, ok := s.finish(w, log, rec, start); !ok {
-				return
-			}
-			writeError(w, http.StatusTooManyRequests, "budget_exceeded", "today's spending limit for the AI model has been reached; requests resume tomorrow (UTC)")
-			return
-		}
-		defer s.cfg.Budget.Release(ceiling) // after the real cost is recorded below
-	}
-
-	resp, err := up.Complete(r.Context(), upstream.Request{Model: model, Messages: msgs, MaxTokens: maxTokens, Temperature: req.Temperature})
-	if err != nil {
-		rec.Decision, rec.Reason = audit.UpstreamError, "the model provider returned an error"
-		log.Warn("upstream error", "error", err.Error())
-		if _, ok := s.finish(w, log, rec, start); !ok {
-			return
-		}
-		writeError(w, http.StatusBadGateway, "upstream_error", "the model provider returned an error")
-		return
-	}
-
-	answer := session.Restore(resp.Content) + fmt.Sprintf(Footer, id)
-	rec.Decision, rec.Model, rec.ResponseHMAC = audit.Allowed, resp.Model, s.cfg.Audit.HMAC(answer)
-	if real {
-		rec.CostUSD = s.cfg.Price.Cost(resp.PromptTokens, resp.OutputTokens)
-	}
-	saved, ok := s.finish(w, log, rec, start)
-	if !ok {
-		return
-	}
-	w.Header().Set("X-Discreet-Entities", entityHeader(rec.Entities))
-	w.Header().Set("X-Discreet-Audit-Seq", fmt.Sprint(saved.Seq))
+	w.Header().Set("X-Discreet-Entities", entityHeader(o.record.Entities))
+	w.Header().Set("X-Discreet-Audit-Seq", fmt.Sprint(o.record.Seq))
 	w.Header().Set("Content-Type", "application/json")
 	enc := json.NewEncoder(w)
 	enc.SetEscapeHTML(false) // keep <NRIC_1> readable in raw output
 	enc.Encode(map[string]any{
 		"id":      "chatcmpl-" + id,
 		"object":  "chat.completion",
-		"created": start.Unix(),
-		"model":   resp.Model,
+		"created": time.Now().Unix(),
+		"model":   o.response.Model,
 		"choices": []map[string]any{{
 			"index":         0,
-			"message":       map[string]string{"role": "assistant", "content": answer},
-			"finish_reason": resp.FinishReason,
+			"message":       map[string]string{"role": "assistant", "content": o.answer},
+			"finish_reason": o.response.FinishReason,
 		}},
 		"usage": map[string]int{
-			"prompt_tokens":     resp.PromptTokens,
-			"completion_tokens": resp.OutputTokens,
-			"total_tokens":      resp.PromptTokens + resp.OutputTokens,
+			"prompt_tokens":     o.response.PromptTokens,
+			"completion_tokens": o.response.OutputTokens,
+			"total_tokens":      o.response.PromptTokens + o.response.OutputTokens,
 		},
 	})
 }
 
-// finish writes the audit record. If it can't, the request fails: Discreet
-// never answers a request it couldn't record.
-func (s *Server) finish(w http.ResponseWriter, log *slog.Logger, rec audit.Record, start time.Time) (audit.Record, bool) {
+// allow applies the per-address rate limit.
+func (s *Server) allow(w http.ResponseWriter, r *http.Request, id string) bool {
+	if s.cfg.RateLimit.Allow(r) {
+		return true
+	}
+	s.cfg.Logger.Info("rate limited", "request_id", id)
+	w.Header().Set("Retry-After", "10")
+	writeError(w, http.StatusTooManyRequests, "rate_limited", "too many requests from this address; try again shortly")
+	return false
+}
+
+// finish writes the audit record. If it can't, the caller must fail the
+// request: Discreet never answers a request it couldn't record.
+func (s *Server) finish(log *slog.Logger, rec audit.Record, start time.Time) (audit.Record, bool) {
 	rec.LatencyMS = time.Since(start).Milliseconds()
 	saved, err := s.cfg.Audit.Append(rec)
 	if err != nil {
 		log.Error("audit write failed", "error", err.Error())
-		writeError(w, http.StatusInternalServerError, "audit_failed", "the request could not be recorded, so it was not processed")
 		return saved, false
 	}
 	log.Info("request", "decision", rec.Decision, "entities", entityHeader(rec.Entities), "upstream", rec.Upstream, "latency_ms", rec.LatencyMS, "audit_seq", saved.Seq)

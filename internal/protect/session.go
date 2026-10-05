@@ -110,6 +110,44 @@ func (s *Session) Restore(text string) string {
 	})
 }
 
+// Part is a piece of a restored answer: plain text, or a value put back in
+// place of Placeholder. The demo page uses it to highlight restored values.
+type Part struct {
+	Text        string `json:"text"`
+	Placeholder string `json:"placeholder,omitempty"`
+}
+
+// RestoreParts is Restore, split into parts.
+func (s *Session) RestoreParts(text string) []Part {
+	var parts []Part
+	pos := 0
+	for _, loc := range placeholderPattern.FindAllStringIndex(text, -1) {
+		p := text[loc[0]:loc[1]]
+		v, ok := s.vault.Get(s.vaultKey(p))
+		if !ok {
+			continue
+		}
+		if loc[0] > pos {
+			parts = append(parts, Part{Text: text[pos:loc[0]]})
+		}
+		parts = append(parts, Part{Text: v, Placeholder: p})
+		pos = loc[1]
+	}
+	if pos < len(text) {
+		parts = append(parts, Part{Text: text[pos:]})
+	}
+	return parts
+}
+
+// Join puts parts back together as plain text.
+func Join(parts []Part) string {
+	var b strings.Builder
+	for _, p := range parts {
+		b.WriteString(p.Text)
+	}
+	return b.String()
+}
+
 // Counts returns how many matches of each entity were seen.
 func (s *Session) Counts() map[string]int {
 	out := make(map[string]int, len(s.found))

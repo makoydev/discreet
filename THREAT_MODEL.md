@@ -31,4 +31,5 @@
 | A caller uses Discreet for automated eligibility decisions | Required purpose header; denied purposes refused with 403 before the model is called, and recorded (ADR 0006) | D5 (done) |
 | The public demo is used to spend money | Mock model unless a valid access token is present (a wrong or missing token gets the mock, test); worst-case cost reserved against a hard daily budget that survives restarts (tests, including 100 parallel requests); 30 requests a minute per address (ADR 0007) | D6 (done), D10 |
 | An access token leaks from memory or logs | Only SHA-256 hashes kept, compared in constant time; tokens and provider keys never logged; the caller's token is never forwarded | D6 (done) |
+| The demo page is used to inject script or exfiltrate what people type | Strict Content-Security-Policy (own scripts only, connections only to this server), user text inserted as text never HTML, no third-party scripts; always the mock model (test) | D8 (done) |
 | A compromised dependency or Action | Standard library only (ADR 0001), SHA-pinned Actions, Dependabot, `govulncheck`, CodeQL | D1 |
