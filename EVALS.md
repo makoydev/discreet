@@ -13,6 +13,10 @@ Known limitation, stated in advance: synthetic data flatters rule-based detector
 
 Vetted's review of this repository's pull requests is measured in Vetted's own `EVALS.md`.
 
+## Cost bound (issue D6, computed 2026-10-05)
+
+With `gpt-6-luna` at US$0.10 / US$0.50 per million input / output tokens (OpenAI's model page, primary source), the 64 KB request limit and the default 2,048-token output cap, one request can cost at most **US$0.0076**: (65,536 bytes + 16) × 0.10 / 10⁶ + 2,048 × 0.50 / 10⁶. The default daily budget of US$0.20 therefore allows at least 26 worst-case requests, and at most about US$6 a month. This is an upper bound by construction, not a measurement; no real request has been sent yet, because `OPENAI_API_KEY` is not configured.
+
 ## Detector conformance (issue D3, measured 2026-10-05)
 
 `go test ./internal/detect` runs every case in the vendored sg-pii-rules `v0.2.0-rc.1` fixtures through Discreet's Go engine: **369 of 369 pass**, across NRIC, NRIC look-alikes, phone, email, card, postal code, unit number and date of birth. These cases are a behaviour specification shared with Vetted, not a measure of real-world accuracy (that is the benchmark above).

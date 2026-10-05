@@ -32,10 +32,20 @@ type Config struct {
 	Policy       *protect.Policy
 	Vault        *vault.Vault
 	Audit        *audit.Log
-	Upstream     upstream.Client
+	Upstream     upstream.Client // the free mock everyone gets by default
 	Logger       *slog.Logger
-	Tenant       string
+	Tenant       string // tenant name for callers without a valid token
 	MaxBodyBytes int64
+
+	// The real model, used only for callers with a valid access token
+	// (ADR 0007). Nil means everyone gets the mock.
+	Real            upstream.Client
+	Tokens          *Tokens
+	Model           string // the one model Real may be asked for
+	Price           Price
+	Budget          *Budget
+	MaxOutputTokens int
+	RateLimit       *RateLimiter
 }
 
 // Server handles requests. Create it with New.
@@ -50,7 +60,10 @@ func New(cfg Config) *Server {
 		cfg.Logger = slog.Default()
 	}
 	if cfg.Tenant == "" {
-		cfg.Tenant = "default"
+		cfg.Tenant = "public"
+	}
+	if cfg.MaxOutputTokens == 0 {
+		cfg.MaxOutputTokens = 2048
 	}
 	if cfg.MaxBodyBytes == 0 {
 		cfg.MaxBodyBytes = 64 << 10
@@ -134,6 +147,12 @@ func (s *Server) chatCompletions(w http.ResponseWriter, r *http.Request) {
 	id := newID()
 	w.Header().Set("X-Discreet-Request-Id", id)
 	log := s.cfg.Logger.With("request_id", id)
+	if !s.cfg.RateLimit.Allow(r) {
+		log.Info("rate limited")
+		w.Header().Set("Retry-After", "10")
+		writeError(w, http.StatusTooManyRequests, "rate_limited", "too many requests from this address; try again shortly")
+		return
+	}
 
 	var req chatRequest
 	if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, s.cfg.MaxBodyBytes)).Decode(&req); err != nil {
@@ -170,7 +189,26 @@ func (s *Server) chatCompletions(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	purpose := s.scrub(rawPurpose)
-	rec := audit.Record{RequestID: id, Tenant: s.cfg.Tenant, Purpose: purpose, Upstream: s.cfg.Upstream.Name(), Model: req.Model}
+
+	// Only a valid access token reaches the real model; anyone else gets
+	// the free mock, so the public endpoint can never spend money.
+	up, tenant, real := s.cfg.Upstream, s.cfg.Tenant, false
+	if t, ok := s.cfg.Tokens.Tenant(r); ok {
+		tenant = t
+		if s.cfg.Real != nil {
+			up, real = s.cfg.Real, true
+		}
+	}
+	w.Header().Set("X-Discreet-Upstream", up.Name())
+	model := req.Model
+	if real {
+		if req.Model != "" && req.Model != s.cfg.Model {
+			writeError(w, http.StatusBadRequest, "model_not_allowed", fmt.Sprintf("this gateway only sends requests to %s", s.cfg.Model))
+			return
+		}
+		model = s.cfg.Model
+	}
+	rec := audit.Record{RequestID: id, Tenant: tenant, Purpose: purpose, Upstream: up.Name(), Model: model}
 	if deniedPurpose(rawPurpose, s.cfg.Policy.DeniedPurposes) {
 		rec.Decision, rec.Reason = audit.RefusedPurpose, "purpose refused by policy"
 		if _, ok := s.finish(w, log, rec, start); !ok {
@@ -207,7 +245,29 @@ func (s *Server) chatCompletions(w http.ResponseWriter, r *http.Request) {
 	} else if req.MaxTokens != nil {
 		maxTokens = *req.MaxTokens
 	}
-	resp, err := s.cfg.Upstream.Complete(r.Context(), upstream.Request{Model: req.Model, Messages: msgs, MaxTokens: maxTokens, Temperature: req.Temperature})
+	if maxTokens <= 0 || maxTokens > s.cfg.MaxOutputTokens {
+		maxTokens = s.cfg.MaxOutputTokens
+	}
+
+	// Real calls reserve their worst-case cost first (ADR 0007).
+	if real {
+		promptBytes := 0
+		for _, m := range msgs {
+			promptBytes += len(m.Content)
+		}
+		ceiling := s.cfg.Price.Ceiling(promptBytes, len(msgs), maxTokens)
+		if !s.cfg.Budget.Reserve(ceiling) {
+			rec.Decision, rec.Reason = audit.RefusedBudget, fmt.Sprintf("daily budget reached (this request could cost up to US$%.4f)", ceiling)
+			if _, ok := s.finish(w, log, rec, start); !ok {
+				return
+			}
+			writeError(w, http.StatusTooManyRequests, "budget_exceeded", "today's spending limit for the AI model has been reached; requests resume tomorrow (UTC)")
+			return
+		}
+		defer s.cfg.Budget.Release(ceiling) // after the real cost is recorded below
+	}
+
+	resp, err := up.Complete(r.Context(), upstream.Request{Model: model, Messages: msgs, MaxTokens: maxTokens, Temperature: req.Temperature})
 	if err != nil {
 		rec.Decision, rec.Reason = audit.UpstreamError, "the model provider returned an error"
 		log.Warn("upstream error", "error", err.Error())
@@ -220,6 +280,9 @@ func (s *Server) chatCompletions(w http.ResponseWriter, r *http.Request) {
 
 	answer := session.Restore(resp.Content) + fmt.Sprintf(Footer, id)
 	rec.Decision, rec.Model, rec.ResponseHMAC = audit.Allowed, resp.Model, s.cfg.Audit.HMAC(answer)
+	if real {
+		rec.CostUSD = s.cfg.Price.Cost(resp.PromptTokens, resp.OutputTokens)
+	}
 	saved, ok := s.finish(w, log, rec, start)
 	if !ok {
 		return

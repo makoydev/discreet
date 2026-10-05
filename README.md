@@ -26,6 +26,17 @@ curl -s localhost:8080/v1/chat/completions \
   -d '{"model":"gpt-6-luna","messages":[{"role":"user","content":"Call S1234567D on 9123 4567"}]}'
 ```
 
+To use a real model, point Discreet at it and give callers tokens; anyone without a valid token still gets the mock:
+
+```sh
+export DISCREET_UPSTREAM_URL=https://api.openai.com/v1
+export DISCREET_UPSTREAM_API_KEY=...            # your OpenAI key, set it yourself
+export DISCREET_ACCESS_TOKENS=claims-team:$(openssl rand -hex 16)
+./bin/discreet serve                             # gpt-6-luna, US$0.20/day hard cap
+```
+
+Run `./bin/discreet serve --help` for every setting (budget, output cap, rate limit, Ollama).
+
 The mock model shows what a real model would have received (placeholders only), and the answer comes back with the real values restored. Any OpenAI client works by pointing `base_url` at `http://localhost:8080/v1` and adding the `X-Discreet-Purpose` header. The example NRIC is synthetic.
 
 ## Evidence

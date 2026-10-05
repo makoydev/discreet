@@ -29,5 +29,6 @@
 | Personal data travels in request fields the gateway doesn't inspect (`tools`, `user`, metadata) | Requests are rebuilt from model, messages, token limit and temperature only; tools, images and tool-role messages are rejected (ADR 0006, test) | D5 (done) |
 | Personal data ends up in server logs | Logs carry counts and decisions, never text; a test captures every log line and searches it for planted values | D5 (done) |
 | A caller uses Discreet for automated eligibility decisions | Required purpose header; denied purposes refused with 403 before the model is called, and recorded (ADR 0006) | D5 (done) |
-| The public demo is used to spend money | Mock model unless a valid access token is present; daily budget; rate limit | D6, D10 |
+| The public demo is used to spend money | Mock model unless a valid access token is present (a wrong or missing token gets the mock, test); worst-case cost reserved against a hard daily budget that survives restarts (tests, including 100 parallel requests); 30 requests a minute per address (ADR 0007) | D6 (done), D10 |
+| An access token leaks from memory or logs | Only SHA-256 hashes kept, compared in constant time; tokens and provider keys never logged; the caller's token is never forwarded | D6 (done) |
 | A compromised dependency or Action | Standard library only (ADR 0001), SHA-pinned Actions, Dependabot, `govulncheck`, CodeQL | D1 |
