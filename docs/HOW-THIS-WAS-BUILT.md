@@ -30,9 +30,13 @@
 | 2026-10-05 | Go YAML libraries (Go module proxy, GitHub) | `gopkg.in/yaml.v3` archived since April 2025; used the maintained fork `go.yaml.in/yaml/v3` v3.0.5 |
 | 2026-10-05 | Three deliberate breaks of the placeholder session: vault keys without the session, no placeholder reuse, redact restored | Each failed at least one test; restored from backup |
 | 2026-10-05 | Three deliberate breaks of the audit log: no record-hash check, no chain-link check, appending to a broken log | Each failed at least one test; restored from backup |
+| 2026-10-05 | OpenAI's official Python library (v3.24.0) against a local `discreet serve`, changing only `base_url` | Completion returned and parsed; eligibility purpose refused with 403 `purpose_refused`; audit log verified; no planted value in the server or audit log |
+| 2026-10-05 | Three deliberate breaks of the gateway: original text sent to the model, purpose check skipped, prompt logged | Each failed a test; restored from backup |
 | 2026-10-05 | Five deliberate breaks of the engine and vendored rules (EVALS.md) | Four caught at once. The reversed overlap tie-break was not: no shared case covers it. Added toy-detector overlap tests (now 3 fail on that break) and opened vetted#44 for the shared suite |
 
 ## What the AI got wrong, and how it was caught
 
 | Date | What went wrong | How it was caught | Fix |
 | --- | --- | --- | --- |
+| 2026-10-05 | The mock model's reply said "Here is what I received, exactly as a real model would see it", but readers see that text after Discreet restores the real values, so it showed them the opposite of what the model saw | Reading the reply returned to OpenAI's Python client during the compatibility check | Reworded: the mock says it only ever saw placeholders and that Discreet put the real details back |
+| 2026-10-05 | A gateway test searched JSON-encoded messages for `<NRIC_1>`, but Go's encoder writes `<` as `\u003c`, so a correct gateway failed the test | The test failure itself, read before changing any gateway code | Fixed the test to read message text directly; the gateway now keeps `<` and `>` unescaped in responses so placeholders stay readable |
