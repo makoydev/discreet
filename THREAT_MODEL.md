@@ -1,6 +1,6 @@
 # Threat model
 
-**Draft.** Filled in as each feature lands; reviewed in issue D11.
+**Reviewed for v0.1 on 2026-10-05** (issue D11). Each threat lists its mitigation and where it's tested; accepted risks are listed at the end.
 
 ## What Discreet protects
 
@@ -35,3 +35,12 @@
 | The public demo is reconfigured to reach a paid model | `fly.toml` never sets an upstream; `docs/DEPLOY.md` forbids setting one as a secret; without an upstream every request gets the mock (ADR 0007, ADR 0009) | D10 (done) |
 | The container is used to escalate on the host | Distroless image (no shell), non-root user, static binary, images pinned by digest, built and smoke-tested in CI | D10 (done) |
 | A compromised dependency or Action | Standard library only (ADR 0001), SHA-pinned Actions, Dependabot, `govulncheck`, CodeQL | D1 |
+
+## Accepted for v0.1 (residual risks)
+
+- **Missed personal data.** The benchmark measured 76.5% recall over a deliberately varied mix of writing styles (EVALS.md). Anything the rules miss reaches the model. Names are never detected.
+- **A dishonest purpose.** A caller can declare a harmless purpose and still use the answer for an eligibility decision. The header makes the claim explicit and recorded; it isn't a technical barrier.
+- **Full audit-chain rewrite or truncation** by someone with write access to the server (ADR 0005).
+- **The model provider** sees placeholders and the surrounding text; whatever context remains (a claim number, a diagnosis) is still sent.
+- **Vetted's own pilot ran with sg-pii-rules v0.1.0**, so Discreet's synthetic cards, postal codes, unit numbers and dates of birth in test files reached Vetted's (mock) model unscrubbed during Milestone 2. Upgrading Vetted to v0.2.0 is Milestone 3 work.
+
