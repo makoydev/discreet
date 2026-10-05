@@ -32,3 +32,29 @@ jobs:
       # gofmt, go vet, go test -race, govulncheck and a build (see Makefile)
       - name: Run every check
         run: make check
+
+  container:
+    name: Container image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      # Builds the deployment image and runs it the way Fly.io will: as the
+      # non-root user, writing the audit log to a volume at /data.
+      - name: Build and smoke-test the image
+        run: |
+          docker build --build-arg VERSION=ci -t discreet:ci .
+          test "$(docker inspect --format '{{.Config.User}}' discreet:ci)" = "nonroot:nonroot"
+          docker volume create discreet-data
+          docker run -d --name discreet -p 8080:8080 -v discreet-data:/data \
+            -e DISCREET_HMAC_KEY="$(openssl rand -hex 32)" discreet:ci
+          curl -fsS --retry 10 --retry-delay 1 --retry-all-errors http://localhost:8080/healthz
+          out=$(curl -fsS http://localhost:8080/demo/run -H 'Content-Type: application/json' \
+            -d '{"purpose":"claims summary","text":"Member S1234567D on 9123 4567"}')
+          printf '%s' "$out" | grep -q '"sent_to_model":"Member <NRIC_1> on <PHONE_1>"'
+          docker exec discreet /discreet audit verify -log /data/discreet-audit.jsonl
+          docker logs discreet 2>&1 | grep -vq 'S1234567D'
+
