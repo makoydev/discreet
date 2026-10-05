@@ -26,5 +26,8 @@
 | Someone edits the audit log to hide a request | SHA-256 hash chain; `audit verify` names the first broken record; a broken log is refused at start-up (tests for a changed byte, a deleted record, swapped records, a rewritten record) | D7 (done) |
 | Someone with write access rewrites the whole chain, or cuts records off the end | Not prevented: `verify` prints the head hash to record elsewhere; automatic anchoring is Milestone 3 work (ADR 0005) | Accepted for v0.1 |
 | Short identifiers are guessed from audit hashes | HMAC-SHA-256 with a server secret of at least 32 characters instead of plain hashes | D7 (done) |
+| Personal data travels in request fields the gateway doesn't inspect (`tools`, `user`, metadata) | Requests are rebuilt from model, messages, token limit and temperature only; tools, images and tool-role messages are rejected (ADR 0006, test) | D5 (done) |
+| Personal data ends up in server logs | Logs carry counts and decisions, never text; a test captures every log line and searches it for planted values | D5 (done) |
+| A caller uses Discreet for automated eligibility decisions | Required purpose header; denied purposes refused with 403 before the model is called, and recorded (ADR 0006) | D5 (done) |
 | The public demo is used to spend money | Mock model unless a valid access token is present; daily budget; rate limit | D6, D10 |
 | A compromised dependency or Action | Standard library only (ADR 0001), SHA-pinned Actions, Dependabot, `govulncheck`, CodeQL | D1 |
