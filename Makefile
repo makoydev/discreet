@@ -1,7 +1,7 @@
 # One command for every check, used locally and in CI: make check
 GOVULNCHECK := golang.org/x/vuln/cmd/govulncheck@v1.8.0
 
-.PHONY: check fmt vet test vuln build
+.PHONY: check fmt vet test vuln build bench
 
 check: fmt vet test vuln build
 
@@ -19,3 +19,7 @@ vuln:
 
 build:
 	go build -o bin/discreet ./cmd/discreet
+
+# Detection benchmark and latency, printed as Markdown for EVALS.md
+bench:
+	go run ./cmd/benchmark
