@@ -1,0 +1,24 @@
+# Discreet's default policy: what happens to each kind of personal data
+# before a request reaches the model.
+#   tokenise  replace with a placeholder such as <NRIC_1>; put back in the answer
+#   redact    replace with [REDACTED_CARD]; never put back
+#   block     refuse the whole request
+version: 1
+default_action: tokenise
+entities:
+  NRIC: tokenise       # PDPC: don't disclose NRIC numbers you don't need to
+  NRIC_LIKE: tokenise  # a mistyped NRIC is still personal data
+  PHONE: tokenise
+  EMAIL: tokenise
+  CARD: redact         # a model never needs the card number back
+  POSTAL: tokenise
+  UNIT: tokenise
+  DOB: tokenise
+# Purposes refused outright (checked in issue D5). Matching ignores case and
+# punctuation. Discreet never takes part in decisions about people's
+# eligibility for benefits, credit or services.
+denied_purposes:
+  - automated eligibility decision
+  - eligibility determination
+  - benefits decision
+  - credit decision
