@@ -136,3 +136,16 @@ func TestParsePolicyRejectsMistakes(t *testing.T) {
 		t.Error("default policy actions are not as documented")
 	}
 }
+
+func TestRestorePartsMatchesRestore(t *testing.T) {
+	e, s, _ := setup(t, DefaultPolicy())
+	protect(t, e, s, "Call S1234567D on 9123 4567")
+	text := "Hi <NRIC_1>, call <PHONE_1>. <NRIC_9> stays."
+	parts := s.RestoreParts(text)
+	if Join(parts) != s.Restore(text) {
+		t.Errorf("Join(RestoreParts) = %q, Restore = %q", Join(parts), s.Restore(text))
+	}
+	if len(parts) != 5 || parts[1].Placeholder != "<NRIC_1>" || parts[1].Text != "S1234567D" || parts[3].Placeholder != "<PHONE_1>" {
+		t.Errorf("parts %+v", parts)
+	}
+}
