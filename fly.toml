@@ -1,0 +1,35 @@
+# Public demo of Discreet on Fly.io (issue D10, ADR 0009). Mock model only:
+# DISCREET_UPSTREAM_URL is deliberately never set here, so the public app
+# cannot reach a paid model whatever anyone sends it.
+app = "discreet-demo"
+primary_region = "sin"
+
+[env]
+  DISCREET_ADDR = ":8080"
+  DISCREET_AUDIT_LOG = "/data/discreet-audit.jsonl"
+  DISCREET_CLIENT_IP_HEADER = "Fly-Client-IP"
+  DISCREET_RATE_LIMIT_PER_MINUTE = "30"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  path = "/healthz"
+  timeout = "5s"
+
+[mounts]
+  source = "discreet_data"
+  destination = "/data"
+  initial_size = "1gb"
+
+[[vm]]
+  memory = "256mb"
+  cpu_kind = "shared"
+  cpus = 1
