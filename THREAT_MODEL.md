@@ -19,7 +19,8 @@
 
 | Threat | Planned mitigation | Issue |
 | --- | --- | --- |
-| Personal data the detectors miss reaches the model | Shared conformance suite with hard negatives; measured recall published in EVALS | D3, D9 |
+| Personal data the detectors miss reaches the model | Shared conformance suite with hard negatives (369/369 pass in Go); measured recall published in EVALS | D3 (done), D9 |
+| Rules silently changed or swapped | Vendored release checked against `SHA256SUMS` on every test run; embedded in the binary (ADR 0003) | D3 (done) |
 | The vault leaks values through logs or errors | Values encrypted in memory, short expiry, a test that scans logs for planted values | D4 |
 | The model invents placeholders to extract other values | Only placeholders issued for that request are rehydrated | D4 |
 | Someone edits the audit log to hide a request | SHA-256 hash chain; `audit verify` names the first broken record | D7 |

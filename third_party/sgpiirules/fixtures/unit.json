@@ -1,0 +1,444 @@
+{
+  "$schema": "../schema/fixtures.schema.json",
+  "entity": "UNIT",
+  "cases": [
+    {
+      "id": "unit-tp-001",
+      "kind": "true_positive",
+      "text": "Blk 123 Ang Mo Kio Avenue 3 #08-4052",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#08-4052"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-002",
+      "kind": "true_positive",
+      "text": "10 Anson Road #10-61, International Plaza",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#10-61"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-003",
+      "kind": "true_positive",
+      "text": "Unit: #38-429",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#38-429"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-004",
+      "kind": "true_positive",
+      "text": "{\"unit\": \"#19-3440\"}",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#19-3440"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-005",
+      "kind": "true_positive",
+      "text": "address_line_2,#32-14",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#32-14"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-006",
+      "kind": "true_positive",
+      "text": "Deliver to #25-87A before noon.",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#25-87A"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-007",
+      "kind": "true_positive",
+      "text": "Tampines Mall #35-873",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#35-873"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-008",
+      "kind": "true_positive",
+      "text": "#33-436A Paya Lebar Square",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#33-436A"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-009",
+      "kind": "true_positive",
+      "text": "Blk 123 Ang Mo Kio Avenue 3 #17-308",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#17-308"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-010",
+      "kind": "true_positive",
+      "text": "10 Anson Road #09-0571, International Plaza",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#09-0571"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-011",
+      "kind": "true_positive",
+      "text": "Unit: #07-4818",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#07-4818"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-012",
+      "kind": "true_positive",
+      "text": "{\"unit\": \"#02-93\"}",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#02-93"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-013",
+      "kind": "true_positive",
+      "text": "address_line_2,#30-3577",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#30-3577"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-014",
+      "kind": "true_positive",
+      "text": "Deliver to #12-62 before noon.",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#12-62"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-015",
+      "kind": "true_positive",
+      "text": "Tampines Mall #13-598",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#13-598"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-016",
+      "kind": "true_positive",
+      "text": "#20-66 Paya Lebar Square",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#20-66"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-017",
+      "kind": "true_positive",
+      "text": "Blk 123 Ang Mo Kio Avenue 3 #21-350C",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#21-350C"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-018",
+      "kind": "true_positive",
+      "text": "10 Anson Road #19-4348, International Plaza",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#19-4348"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-019",
+      "kind": "true_positive",
+      "text": "Unit: #B3-9861",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#B3-9861"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-020",
+      "kind": "true_positive",
+      "text": "{\"unit\": \"#31-233\"}",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#31-233"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-021",
+      "kind": "true_positive",
+      "text": "address_line_2,#38-3521",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#38-3521"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-022",
+      "kind": "true_positive",
+      "text": "Deliver to #36-745 before noon.",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#36-745"
+        }
+      ]
+    },
+    {
+      "id": "unit-tp-with-postal-1",
+      "kind": "true_positive",
+      "text": "Blk 456 Bedok North Street 1 #18-2376 Singapore 460296",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#18-2376"
+        },
+        {
+          "entity": "POSTAL",
+          "value": "460296"
+        }
+      ],
+      "note": "A full address: the unit number and the postal code are both reported."
+    },
+    {
+      "id": "unit-tp-with-postal-2",
+      "kind": "true_positive",
+      "text": "Blk 456 Bedok North Street 1 #40-5236C Singapore 567267",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#40-5236C"
+        },
+        {
+          "entity": "POSTAL",
+          "value": "567267"
+        }
+      ],
+      "note": "A full address: the unit number and the postal code are both reported."
+    },
+    {
+      "id": "unit-hn-issue-ref",
+      "kind": "hard_negative",
+      "text": "Fixed in #12",
+      "expect": [],
+      "note": "An issue reference: no hyphen and unit."
+    },
+    {
+      "id": "unit-hn-four-digits",
+      "kind": "hard_negative",
+      "text": "See #1234",
+      "expect": [],
+      "note": "Four digits with no hyphen."
+    },
+    {
+      "id": "unit-hn-one-digit-unit",
+      "kind": "hard_negative",
+      "text": "Step #12-3",
+      "expect": [],
+      "note": "Units have at least two digits."
+    },
+    {
+      "id": "unit-hn-five-digit-unit",
+      "kind": "hard_negative",
+      "text": "Ticket #12-34567",
+      "expect": [],
+      "note": "Units have at most four digits."
+    },
+    {
+      "id": "unit-hn-digit-run",
+      "kind": "hard_negative",
+      "text": "Build #12345",
+      "expect": [],
+      "note": "A run of digits."
+    },
+    {
+      "id": "unit-hn-colour",
+      "kind": "hard_negative",
+      "text": "color: #ff0000;",
+      "expect": [],
+      "note": "A CSS colour."
+    },
+    {
+      "id": "unit-hn-hex-pair",
+      "kind": "hard_negative",
+      "text": "Mask #1a-2b",
+      "expect": [],
+      "note": "Hex digits, not a floor and unit."
+    },
+    {
+      "id": "unit-hn-slash",
+      "kind": "hard_negative",
+      "text": "Item #05/123",
+      "expect": [],
+      "note": "A slash instead of a hyphen."
+    },
+    {
+      "id": "unit-hn-issue-range",
+      "kind": "hard_negative",
+      "text": "Closes #12-#15",
+      "expect": [],
+      "note": "A range of issue numbers."
+    },
+    {
+      "id": "unit-hn-floor-00",
+      "kind": "hard_negative",
+      "text": "Room #00-12",
+      "expect": [],
+      "note": "There is no floor 00."
+    },
+    {
+      "id": "unit-hn-single-digit-floor",
+      "kind": "hard_negative",
+      "text": "Room #5-123",
+      "expect": [],
+      "note": "Floors are written with two digits."
+    },
+    {
+      "id": "unit-hn-basement-0",
+      "kind": "hard_negative",
+      "text": "Level #B0-12",
+      "expect": [],
+      "note": "Basements are B1 and below."
+    },
+    {
+      "id": "unit-hn-letter-floor",
+      "kind": "hard_negative",
+      "text": "Grid #A1-23",
+      "expect": [],
+      "note": "A is not a basement or a floor."
+    },
+    {
+      "id": "unit-hn-en-dash",
+      "kind": "hard_negative",
+      "text": "Range #12–345",
+      "expect": [],
+      "note": "An en dash, not a hyphen."
+    },
+    {
+      "id": "unit-hn-underscore",
+      "kind": "hard_negative",
+      "text": "Key #12_345",
+      "expect": [],
+      "note": "An underscore, not a hyphen."
+    },
+    {
+      "id": "unit-hn-spaced",
+      "kind": "hard_negative",
+      "text": "Score #12 - 345",
+      "expect": [],
+      "note": "Spaces around the hyphen."
+    },
+    {
+      "id": "unit-hn-lowercase-suffix",
+      "kind": "hard_negative",
+      "text": "Tag #12-34ab",
+      "expect": [],
+      "note": "Letters after the unit are lowercase and run on."
+    },
+    {
+      "id": "unit-hn-double-hash",
+      "kind": "hard_negative",
+      "text": "Heading ## 12-345",
+      "expect": [],
+      "note": "A Markdown heading."
+    },
+    {
+      "id": "unit-hn-leading-hyphen",
+      "kind": "hard_negative",
+      "text": "Offset #-12-345",
+      "expect": [],
+      "note": "A hyphen before the floor."
+    },
+    {
+      "id": "unit-hn-date",
+      "kind": "hard_negative",
+      "text": "Release #2026-10-05",
+      "expect": [],
+      "note": "A date after a hash."
+    },
+    {
+      "id": "unit-hn-phone",
+      "kind": "hard_negative",
+      "text": "Hotline #9123-4567",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "9123-4567"
+        }
+      ],
+      "note": "A phone number after a hash, reported as PHONE."
+    },
+    {
+      "id": "unit-mixed",
+      "kind": "mixed",
+      "text": "Unit #35-0521, see ticket #1234",
+      "expect": [
+        {
+          "entity": "UNIT",
+          "value": "#35-0521"
+        }
+      ],
+      "note": "Only the floor-unit number is a unit number."
+    }
+  ]
+}

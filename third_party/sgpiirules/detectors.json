@@ -1,0 +1,87 @@
+{
+  "$schema": "./schema/detectors.schema.json",
+  "version": "0.2.0",
+  "detectors": [
+    {
+      "id": "sg_nric_fin",
+      "entity": "NRIC",
+      "description": "Singapore NRIC and FIN numbers: prefix S, T, F, G or M, seven digits, and a check letter that must pass the checksum. Case-insensitive.",
+      "pattern": "(?i)\\b[STFGM]\\d{7}[A-Z]\\b",
+      "validator": "sg_nric_fin_checksum",
+      "sources": [
+        "https://www.ica.gov.sg/news-and-publications/newsroom/media-release/new-m-fin-series-to-be-introduced-from-1-january-2022",
+        "https://www.pdpc.gov.sg/organisations/regulations-decisions/regulatory-guidance/advisory-guidelines-on-the-personal-data-protection-act-for-nric-and-other-national-identification-numbers",
+        "https://github.com/makoydev/sg-pii-rules/blob/main/VALIDATORS.md#sg_nric_fin_checksum"
+      ]
+    },
+    {
+      "id": "sg_nric_fin_like",
+      "entity": "NRIC_LIKE",
+      "description": "NRIC/FIN shape with a check letter that fails the checksum: a mistyped NRIC or an NRIC-shaped look-alike such as an order number. Lower confidence than NRIC; each consumer decides how to treat it (ADR 0006).",
+      "pattern": "(?i)\\b[STFGM]\\d{7}[A-Z]\\b",
+      "validator": "sg_nric_fin_checksum_invalid",
+      "sources": [
+        "https://github.com/makoydev/sg-pii-rules/blob/main/docs/adr/0006-nric-checksum-precision-over-recall.md"
+      ]
+    },
+    {
+      "id": "sg_phone",
+      "entity": "PHONE",
+      "description": "Singapore phone numbers: eight digits starting 3 (internet telephony), 6 (fixed line), 8 or 9 (mobile) per the IMDA National Numbering Plan, optionally split 4-4 by a space or hyphen, optionally preceded by +65, (65), (+65), 0065 or 65.",
+      "pattern": "(?:(?:\\+65|\\(\\+?65\\)|\\b0065|\\b65)[ -]?|\\b)[3689]\\d{3}[ -]?\\d{4}\\b",
+      "sources": [
+        "https://www.imda.gov.sg/regulations-and-licensing-listing/numbering/national-numbering-plan-and-allocation-process",
+        "https://www.imda.gov.sg/-/media/imda/files/regulation-licensing-and-consultations/frameworks-and-policies/numbering/national-numbering-plan-and-allocation-process/imda-national-numbering-plan.pdf"
+      ]
+    },
+    {
+      "id": "email",
+      "entity": "EMAIL",
+      "description": "Email addresses: a local part of letters, digits and . _ % + -, an @, and a domain whose last label is two or more letters. Deliberately permissive: domains may start with a digit.",
+      "pattern": "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9-]+(?:\\.[A-Za-z0-9-]+)*\\.[A-Za-z]{2,}\\b",
+      "sources": [
+        "https://www.rfc-editor.org/rfc/rfc5322",
+        "https://www.rfc-editor.org/rfc/rfc2606"
+      ]
+    },
+    {
+      "id": "payment_card",
+      "entity": "CARD",
+      "description": "Payment card numbers: 13 to 19 digits, optionally grouped by single spaces or hyphens, that pass the Luhn checksum and start with a prefix used by Visa, Mastercard, American Express, Discover, JCB, UnionPay or Diners Club, at a length that network issues.",
+      "pattern": "\\b\\d(?:[ -]?\\d){12,18}\\b",
+      "validator": "payment_card_luhn_iin",
+      "sources": [
+        "https://www.mastercard.us/content/dam/mccom/en-us/documents/merchant-2-series-BIN-impact-checklist-aug-2016.pdf",
+        "https://en.wikipedia.org/wiki/Payment_card_number"
+      ]
+    },
+    {
+      "id": "sg_postal_code",
+      "entity": "POSTAL",
+      "description": "Singapore postal codes: six digits with a valid postal sector (01 to 82, except 74), only after an address clue: \"Singapore\" (any case), \"S\" or \"S(\" directly before the digits, or a key such as postal code, postalCode, postcode or zip followed by an optional colon or equals sign and quotes. Only the six digits are reported; the clue is context (ADR 0010, ADR 0011).",
+      "pattern": "(?:(?i:\\bsingapore)[ ,]{1,2}|\\bS\\(?|(?i:\\b(?:postal(?:[ _-]?code)?|post[ _-]?code|zip(?:[ _-]?code)?))[\"']?[ \\t]*[:=]?[ \\t]*[\"']?)(?P<value>\\d{6})\\b",
+      "validator": "sg_postal_sector",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Postal_codes_in_Singapore",
+        "https://www.99.co/singapore/insider/singapore-postal-codes/"
+      ]
+    },
+    {
+      "id": "sg_unit_number",
+      "entity": "UNIT",
+      "description": "Singapore unit numbers in the #floor-unit form: #, a two-digit floor 01 to 99 or a basement B1 to B9, a hyphen, two to four digits and an optional capital letter, such as #05-123, #12-34 or #B1-23A. Shape only; written \"Unit 05-123\" without the # is not detected.",
+      "pattern": "#(?:B[1-9]|0[1-9]|[1-9]\\d)-\\d{2,4}[A-Z]?\\b",
+      "sources": ["https://en.wikipedia.org/wiki/Postal_codes_in_Singapore"]
+    },
+    {
+      "id": "date_of_birth",
+      "entity": "DOB",
+      "description": "Dates of birth: a full date with a four-digit year (19xx or 20xx), only directly after a clue such as DOB, D.O.B., date of birth, birth date or born (on), or a key such as dob, dateOfBirth or birth_date, with an optional colon or equals sign and quotes. Formats: 12/03/1988 (day or month first), 12-03-1988, 12.03.1988, 1988-03-12, 12 Mar 1988 and March 12, 1988. Only the date is reported (ADR 0010, ADR 0012).",
+      "pattern": "(?i:\\b(?:d\\.?o\\.?b\\.?|date[ _-]?of[ _-]?birth|birth[ _-]?date|born(?:[ \\t]+on)?))[\"']?[ \\t]*[:=]?[ \\t]*[\"']?(?P<value>\\d{1,2}[/.-]\\d{1,2}[/.-](?:19|20)\\d{2}|(?:19|20)\\d{2}-\\d{1,2}-\\d{1,2}|\\d{1,2} (?i:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\\.?,? (?:19|20)\\d{2}|(?i:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\\.? \\d{1,2},? (?:19|20)\\d{2})\\b",
+      "validator": "calendar_date",
+      "sources": [
+        "https://github.com/makoydev/sg-pii-rules/blob/main/docs/adr/0012-dates-of-birth-need-a-clue.md"
+      ]
+    }
+  ]
+}

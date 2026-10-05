@@ -1,0 +1,463 @@
+{
+  "$schema": "../schema/fixtures.schema.json",
+  "entity": "DOB",
+  "cases": [
+    {
+      "id": "dob-tp-001",
+      "kind": "true_positive",
+      "text": "DOB: 01/06/2006",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "01/06/2006"
+        }
+      ],
+      "note": "dd/mm/yyyy"
+    },
+    {
+      "id": "dob-tp-002",
+      "kind": "true_positive",
+      "text": "D.O.B. 3/9/1954",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "3/9/1954"
+        }
+      ],
+      "note": "d/m/yyyy"
+    },
+    {
+      "id": "dob-tp-003",
+      "kind": "true_positive",
+      "text": "Date of birth: 26-05-1961",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "26-05-1961"
+        }
+      ],
+      "note": "dd-mm-yyyy"
+    },
+    {
+      "id": "dob-tp-004",
+      "kind": "true_positive",
+      "text": "date_of_birth: \"10.04.2008\"",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "10.04.2008"
+        }
+      ],
+      "note": "dd.mm.yyyy"
+    },
+    {
+      "id": "dob-tp-005",
+      "kind": "true_positive",
+      "text": "{\"dateOfBirth\":\"1985-10-04\"}",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "1985-10-04"
+        }
+      ],
+      "note": "yyyy-mm-dd"
+    },
+    {
+      "id": "dob-tp-006",
+      "kind": "true_positive",
+      "text": "dob=17 May 1962",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "17 May 1962"
+        }
+      ],
+      "note": "d Mon yyyy"
+    },
+    {
+      "id": "dob-tp-007",
+      "kind": "true_positive",
+      "text": "Birth date 2 September 1977",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "2 September 1977"
+        }
+      ],
+      "note": "d Month yyyy"
+    },
+    {
+      "id": "dob-tp-008",
+      "kind": "true_positive",
+      "text": "birthDate: 'July 22, 1955'",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "July 22, 1955"
+        }
+      ],
+      "note": "Month d, yyyy"
+    },
+    {
+      "id": "dob-tp-009",
+      "kind": "true_positive",
+      "text": "Born on 23/04/1984",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "23/04/1984"
+        }
+      ],
+      "note": "dd/mm/yyyy"
+    },
+    {
+      "id": "dob-tp-010",
+      "kind": "true_positive",
+      "text": "Patient born 16/5/1963 in Singapore",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "16/5/1963"
+        }
+      ],
+      "note": "d/m/yyyy"
+    },
+    {
+      "id": "dob-tp-011",
+      "kind": "true_positive",
+      "text": "Born: 14-06-1976",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "14-06-1976"
+        }
+      ],
+      "note": "dd-mm-yyyy"
+    },
+    {
+      "id": "dob-tp-012",
+      "kind": "true_positive",
+      "text": "DATE OF BIRTH 06.05.1986",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "06.05.1986"
+        }
+      ],
+      "note": "dd.mm.yyyy"
+    },
+    {
+      "id": "dob-tp-013",
+      "kind": "true_positive",
+      "text": "DOB: 1988-09-15",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "1988-09-15"
+        }
+      ],
+      "note": "yyyy-mm-dd"
+    },
+    {
+      "id": "dob-tp-014",
+      "kind": "true_positive",
+      "text": "D.O.B. 21 May 1996",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "21 May 1996"
+        }
+      ],
+      "note": "d Mon yyyy"
+    },
+    {
+      "id": "dob-tp-015",
+      "kind": "true_positive",
+      "text": "Date of birth: 26 November 1979",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "26 November 1979"
+        }
+      ],
+      "note": "d Month yyyy"
+    },
+    {
+      "id": "dob-tp-016",
+      "kind": "true_positive",
+      "text": "date_of_birth: \"February 24, 1974\"",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "February 24, 1974"
+        }
+      ],
+      "note": "Month d, yyyy"
+    },
+    {
+      "id": "dob-tp-017",
+      "kind": "true_positive",
+      "text": "{\"dateOfBirth\":\"26/02/1963\"}",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "26/02/1963"
+        }
+      ],
+      "note": "dd/mm/yyyy"
+    },
+    {
+      "id": "dob-tp-018",
+      "kind": "true_positive",
+      "text": "dob=21/1/1982",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "21/1/1982"
+        }
+      ],
+      "note": "d/m/yyyy"
+    },
+    {
+      "id": "dob-tp-019",
+      "kind": "true_positive",
+      "text": "Birth date 14-11-1972",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "14-11-1972"
+        }
+      ],
+      "note": "dd-mm-yyyy"
+    },
+    {
+      "id": "dob-tp-020",
+      "kind": "true_positive",
+      "text": "birthDate: '25.11.1958'",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "25.11.1958"
+        }
+      ],
+      "note": "dd.mm.yyyy"
+    },
+    {
+      "id": "dob-tp-021",
+      "kind": "true_positive",
+      "text": "Born on 2007-05-11",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "2007-05-11"
+        }
+      ],
+      "note": "yyyy-mm-dd"
+    },
+    {
+      "id": "dob-tp-022",
+      "kind": "true_positive",
+      "text": "Patient born 26 Apr 1975 in Singapore",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "26 Apr 1975"
+        }
+      ],
+      "note": "d Mon yyyy"
+    },
+    {
+      "id": "dob-tp-023",
+      "kind": "true_positive",
+      "text": "Born: 13 November 1961",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "13 November 1961"
+        }
+      ],
+      "note": "d Month yyyy"
+    },
+    {
+      "id": "dob-tp-month-first",
+      "kind": "true_positive",
+      "text": "DOB: 09/26/1995",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "09/26/1995"
+        }
+      ],
+      "note": "Only valid month first (US style), which is accepted too."
+    },
+    {
+      "id": "dob-hn-no-clue-release",
+      "kind": "hard_negative",
+      "text": "Released 12/03/1988",
+      "expect": [],
+      "note": "A date with no birth clue."
+    },
+    {
+      "id": "dob-hn-no-clue-updated",
+      "kind": "hard_negative",
+      "text": "Updated: 2026-10-05",
+      "expect": [],
+      "note": "A date with no birth clue."
+    },
+    {
+      "id": "dob-hn-no-clue-meeting",
+      "kind": "hard_negative",
+      "text": "Meeting on 12 March 1988",
+      "expect": [],
+      "note": "A date with no birth clue."
+    },
+    {
+      "id": "dob-hn-clue-far-away",
+      "kind": "hard_negative",
+      "text": "DOB field added on 12/03/2024",
+      "expect": [],
+      "note": "Words between the clue and the date."
+    },
+    {
+      "id": "dob-hn-born-again",
+      "kind": "hard_negative",
+      "text": "born-again 2020-01-01",
+      "expect": [],
+      "note": "A hyphen joins \"born\" to another word."
+    },
+    {
+      "id": "dob-hn-doberman",
+      "kind": "hard_negative",
+      "text": "Doberman 12/03/1988",
+      "expect": [],
+      "note": "\"Dob\" at the start of a longer word is not the clue."
+    },
+    {
+      "id": "dob-hn-feb-31",
+      "kind": "hard_negative",
+      "text": "DOB: 31/02/1990",
+      "expect": [],
+      "note": "February has no 31st, either way round."
+    },
+    {
+      "id": "dob-hn-not-a-leap-year",
+      "kind": "hard_negative",
+      "text": "DOB: 29/02/1990",
+      "expect": [],
+      "note": "1990 is not a leap year."
+    },
+    {
+      "id": "dob-hn-month-13",
+      "kind": "hard_negative",
+      "text": "DOB: 13/13/1990",
+      "expect": [],
+      "note": "Neither part is a month."
+    },
+    {
+      "id": "dob-hn-day-zero",
+      "kind": "hard_negative",
+      "text": "DOB: 00/05/1990",
+      "expect": [],
+      "note": "There is no day 0 or month 0."
+    },
+    {
+      "id": "dob-hn-iso-feb-30",
+      "kind": "hard_negative",
+      "text": "dob=1990-02-30",
+      "expect": [],
+      "note": "February has no 30th."
+    },
+    {
+      "id": "dob-hn-april-31",
+      "kind": "hard_negative",
+      "text": "DOB: 31 April 1990",
+      "expect": [],
+      "note": "April has 30 days."
+    },
+    {
+      "id": "dob-hn-year-1899",
+      "kind": "hard_negative",
+      "text": "DOB: 01/01/1899",
+      "expect": [],
+      "note": "Years before 1900 are out of range."
+    },
+    {
+      "id": "dob-hn-year-2150",
+      "kind": "hard_negative",
+      "text": "DOB: 01/01/2150",
+      "expect": [],
+      "note": "Years after 2099 are out of range."
+    },
+    {
+      "id": "dob-hn-year-only",
+      "kind": "hard_negative",
+      "text": "Born in 1988",
+      "expect": [],
+      "note": "A year alone is not a full date of birth."
+    },
+    {
+      "id": "dob-hn-redacted",
+      "kind": "hard_negative",
+      "text": "DOB: [redacted]",
+      "expect": [],
+      "note": "No date."
+    },
+    {
+      "id": "dob-hn-code",
+      "kind": "hard_negative",
+      "text": "if (isValidDob(value)) save()",
+      "expect": [],
+      "note": "Code that mentions dates of birth."
+    },
+    {
+      "id": "dob-hn-time",
+      "kind": "hard_negative",
+      "text": "DOB: 12:30",
+      "expect": [],
+      "note": "A time, not a date."
+    },
+    {
+      "id": "dob-hn-weekday",
+      "kind": "hard_negative",
+      "text": "DOB: Monday",
+      "expect": [],
+      "note": "A day name, not a date."
+    },
+    {
+      "id": "dob-hn-nric",
+      "kind": "hard_negative",
+      "text": "Date of birth: S1234567D",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "S1234567D"
+        }
+      ],
+      "note": "An NRIC after the clue (synthetic example), reported as NRIC."
+    },
+    {
+      "id": "dob-hn-phone",
+      "kind": "hard_negative",
+      "text": "DOB: 9123 4567",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "9123 4567"
+        }
+      ],
+      "note": "A phone number after the clue, reported as PHONE."
+    },
+    {
+      "id": "dob-mixed",
+      "kind": "mixed",
+      "text": "DOB: 20/01/1979, joined 01/06/2020",
+      "expect": [
+        {
+          "entity": "DOB",
+          "value": "20/01/1979"
+        }
+      ],
+      "note": "Only the date after the clue is a date of birth."
+    }
+  ]
+}

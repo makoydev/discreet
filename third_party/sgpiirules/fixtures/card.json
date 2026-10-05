@@ -1,0 +1,465 @@
+{
+  "$schema": "../schema/fixtures.schema.json",
+  "entity": "CARD",
+  "cases": [
+    {
+      "id": "card-tp-001",
+      "kind": "true_positive",
+      "text": "Card number: 4521 9732 2083 2612",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "4521 9732 2083 2612"
+        }
+      ],
+      "note": "visa, 16 digits, spaces"
+    },
+    {
+      "id": "card-tp-002",
+      "kind": "true_positive",
+      "text": "{\"card\": \"4221222513273297\"}",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "4221222513273297"
+        }
+      ],
+      "note": "visa, 16 digits, plain"
+    },
+    {
+      "id": "card-tp-003",
+      "kind": "true_positive",
+      "text": "order_id,card\n1042,4055909888018",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "4055909888018"
+        }
+      ],
+      "note": "visa, 13 digits, plain"
+    },
+    {
+      "id": "card-tp-004",
+      "kind": "true_positive",
+      "text": "Charged to 4787537453560242696 at checkout.",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "4787537453560242696"
+        }
+      ],
+      "note": "visa, 19 digits, plain"
+    },
+    {
+      "id": "card-tp-005",
+      "kind": "true_positive",
+      "text": "const testCard = '4455-7914-0496-0169'",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "4455-7914-0496-0169"
+        }
+      ],
+      "note": "visa, 16 digits, hyphens"
+    },
+    {
+      "id": "card-tp-006",
+      "kind": "true_positive",
+      "text": "PAN=5161 7060 2921 8423",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "5161 7060 2921 8423"
+        }
+      ],
+      "note": "mastercard, 16 digits, spaces"
+    },
+    {
+      "id": "card-tp-007",
+      "kind": "true_positive",
+      "text": "Card number: 5594069146308164",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "5594069146308164"
+        }
+      ],
+      "note": "mastercard, 16 digits, plain"
+    },
+    {
+      "id": "card-tp-008",
+      "kind": "true_positive",
+      "text": "{\"card\": \"2221-5629-4436-2092\"}",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "2221-5629-4436-2092"
+        }
+      ],
+      "note": "mastercard, 16 digits, hyphens"
+    },
+    {
+      "id": "card-tp-009",
+      "kind": "true_positive",
+      "text": "order_id,card\n1042,2720 2613 2920 1753",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "2720 2613 2920 1753"
+        }
+      ],
+      "note": "mastercard, 16 digits, spaces"
+    },
+    {
+      "id": "card-tp-010",
+      "kind": "true_positive",
+      "text": "Charged to 2500706103228337 at checkout.",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "2500706103228337"
+        }
+      ],
+      "note": "mastercard, 16 digits, plain"
+    },
+    {
+      "id": "card-tp-011",
+      "kind": "true_positive",
+      "text": "const testCard = '3431 705981 79379'",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "3431 705981 79379"
+        }
+      ],
+      "note": "amex, 15 digits, amex"
+    },
+    {
+      "id": "card-tp-012",
+      "kind": "true_positive",
+      "text": "PAN=376825985723655",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "376825985723655"
+        }
+      ],
+      "note": "amex, 15 digits, plain"
+    },
+    {
+      "id": "card-tp-013",
+      "kind": "true_positive",
+      "text": "Card number: 6011 3002 8087 8123",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "6011 3002 8087 8123"
+        }
+      ],
+      "note": "discover, 16 digits, spaces"
+    },
+    {
+      "id": "card-tp-014",
+      "kind": "true_positive",
+      "text": "{\"card\": \"6557337980557250\"}",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "6557337980557250"
+        }
+      ],
+      "note": "discover, 16 digits, plain"
+    },
+    {
+      "id": "card-tp-015",
+      "kind": "true_positive",
+      "text": "order_id,card\n1042,6442-9333-8889-4847",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "6442-9333-8889-4847"
+        }
+      ],
+      "note": "discover, 16 digits, hyphens"
+    },
+    {
+      "id": "card-tp-016",
+      "kind": "true_positive",
+      "text": "Charged to 6221267494177595252 at checkout.",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "6221267494177595252"
+        }
+      ],
+      "note": "discover, 19 digits, plain"
+    },
+    {
+      "id": "card-tp-017",
+      "kind": "true_positive",
+      "text": "const testCard = '3528 6980 3140 3593'",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "3528 6980 3140 3593"
+        }
+      ],
+      "note": "jcb, 16 digits, spaces"
+    },
+    {
+      "id": "card-tp-018",
+      "kind": "true_positive",
+      "text": "PAN=3589818871135921513",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "3589818871135921513"
+        }
+      ],
+      "note": "jcb, 19 digits, plain"
+    },
+    {
+      "id": "card-tp-019",
+      "kind": "true_positive",
+      "text": "Card number: 6204 8814 8615 9647",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "6204 8814 8615 9647"
+        }
+      ],
+      "note": "unionpay, 16 digits, spaces"
+    },
+    {
+      "id": "card-tp-020",
+      "kind": "true_positive",
+      "text": "{\"card\": \"6215517794825821160\"}",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "6215517794825821160"
+        }
+      ],
+      "note": "unionpay, 19 digits, plain"
+    },
+    {
+      "id": "card-tp-021",
+      "kind": "true_positive",
+      "text": "order_id,card\n1042,36199076449535",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "36199076449535"
+        }
+      ],
+      "note": "diners, 14 digits, plain"
+    },
+    {
+      "id": "card-tp-022",
+      "kind": "true_positive",
+      "text": "Charged to 30480268377817 at checkout.",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "30480268377817"
+        }
+      ],
+      "note": "diners, 14 digits, plain"
+    },
+    {
+      "id": "card-tp-023",
+      "kind": "true_positive",
+      "text": "const testCard = '3814 5337 0326 1339'",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "3814 5337 0326 1339"
+        }
+      ],
+      "note": "diners, 16 digits, spaces"
+    },
+    {
+      "id": "card-tp-contains-phone-shape",
+      "kind": "true_positive",
+      "text": "Card on file: 5500 9123 4567 8015",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "5500 9123 4567 8015"
+        }
+      ],
+      "note": "Two groups look like a phone number (9123 4567); the longer card match wins (SPEC.md §4, ADR 0007)."
+    },
+    {
+      "id": "card-hn-luhn-fail-visa",
+      "kind": "hard_negative",
+      "text": "Card: 4295176483952250",
+      "expect": [],
+      "note": "Visa prefix and length, but the Luhn check fails. Written unspaced: spaced groups can look like a phone number (ADR 0007)."
+    },
+    {
+      "id": "card-hn-luhn-fail-mastercard",
+      "kind": "hard_negative",
+      "text": "Card: 5388847869444741",
+      "expect": [],
+      "note": "Mastercard prefix and length, but the Luhn check fails."
+    },
+    {
+      "id": "card-hn-luhn-fail-amex",
+      "kind": "hard_negative",
+      "text": "Card: 3743 233024 76184",
+      "expect": [],
+      "note": "Amex prefix and length, but the Luhn check fails."
+    },
+    {
+      "id": "card-hn-no-network-1",
+      "kind": "hard_negative",
+      "text": "Reference 1758768013372523",
+      "expect": [],
+      "note": "Passes Luhn, but no card network uses prefix 1."
+    },
+    {
+      "id": "card-hn-no-network-7",
+      "kind": "hard_negative",
+      "text": "Tracking 7028269788055998",
+      "expect": [],
+      "note": "Passes Luhn, but no card network uses prefix 7."
+    },
+    {
+      "id": "card-hn-no-network-8",
+      "kind": "hard_negative",
+      "text": "Batch 8077898158352631",
+      "expect": [],
+      "note": "Passes Luhn, but no card network uses prefix 80."
+    },
+    {
+      "id": "card-hn-no-network-9",
+      "kind": "hard_negative",
+      "text": "Order 9098884031420582",
+      "expect": [],
+      "note": "A Luhn-valid order number; no card network uses prefix 9."
+    },
+    {
+      "id": "card-hn-amex-wrong-length",
+      "kind": "hard_negative",
+      "text": "Card: 3446942295644057",
+      "expect": [],
+      "note": "Amex prefix, but Amex numbers have 15 digits, not 16."
+    },
+    {
+      "id": "card-hn-visa-14-digits",
+      "kind": "hard_negative",
+      "text": "Card: 47780944434507",
+      "expect": [],
+      "note": "Visa issues 13, 16 or 19 digits, not 14."
+    },
+    {
+      "id": "card-hn-visa-15-digits",
+      "kind": "hard_negative",
+      "text": "Card: 452793099038153",
+      "expect": [],
+      "note": "Visa issues 13, 16 or 19 digits, not 15."
+    },
+    {
+      "id": "card-hn-mastercard-15-digits",
+      "kind": "hard_negative",
+      "text": "Card: 514180904079828",
+      "expect": [],
+      "note": "Mastercard numbers have 16 digits."
+    },
+    {
+      "id": "card-hn-twelve-digits",
+      "kind": "hard_negative",
+      "text": "Card: 489843866190",
+      "expect": [],
+      "note": "Twelve digits: shorter than any card number here."
+    },
+    {
+      "id": "card-hn-twenty-digits",
+      "kind": "hard_negative",
+      "text": "Card: 44364601916986781381",
+      "expect": [],
+      "note": "Twenty digits: longer than any card number."
+    },
+    {
+      "id": "card-hn-double-space",
+      "kind": "hard_negative",
+      "text": "Card: 4792  7871 2835 7775",
+      "expect": [],
+      "note": "Two separators in a row break the number into pieces too short to be a card."
+    },
+    {
+      "id": "card-hn-dot-separated",
+      "kind": "hard_negative",
+      "text": "Card: 4337.0641.8176.0200",
+      "expect": [],
+      "note": "Dots are not card separators."
+    },
+    {
+      "id": "card-hn-inside-word",
+      "kind": "hard_negative",
+      "text": "ID4502097034519968",
+      "expect": [],
+      "note": "No word boundary between the letters and the digits."
+    },
+    {
+      "id": "card-hn-timestamp",
+      "kind": "hard_negative",
+      "text": "Created 1727654321000",
+      "expect": [],
+      "note": "A 13-digit millisecond timestamp (prefix 17 is not a card network)."
+    },
+    {
+      "id": "card-hn-isbn",
+      "kind": "hard_negative",
+      "text": "ISBN 978-3-16-148410-0",
+      "expect": [],
+      "note": "An ISBN-13 with hyphens (prefix 97 is not a card network)."
+    },
+    {
+      "id": "card-hn-iban-like",
+      "kind": "hard_negative",
+      "text": "IBAN SG12 0456 7450 1234 5178 90",
+      "expect": [],
+      "note": "Bank-account-shaped digits with no card prefix at a valid length."
+    },
+    {
+      "id": "card-hn-masked",
+      "kind": "hard_negative",
+      "text": "Card ending **** **** **** 4242",
+      "expect": [],
+      "note": "Only the last four digits, which is not the card number."
+    },
+    {
+      "id": "card-hn-amount",
+      "kind": "hard_negative",
+      "text": "Total 1,234,567,890,123.45",
+      "expect": [],
+      "note": "An amount with commas."
+    },
+    {
+      "id": "card-hn-phone",
+      "kind": "hard_negative",
+      "text": "Call +65 9123 4567",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+65 9123 4567"
+        }
+      ],
+      "note": "A phone number, reported as PHONE, not CARD."
+    },
+    {
+      "id": "card-mixed",
+      "kind": "mixed",
+      "text": "Card 4497 4440 6161 2653, order 9199016612525129",
+      "expect": [
+        {
+          "entity": "CARD",
+          "value": "4497 4440 6161 2653"
+        }
+      ],
+      "note": "The order number passes Luhn but has no card prefix."
+    }
+  ]
+}

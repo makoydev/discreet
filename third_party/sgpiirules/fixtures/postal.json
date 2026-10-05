@@ -1,0 +1,444 @@
+{
+  "$schema": "../schema/fixtures.schema.json",
+  "entity": "POSTAL",
+  "cases": [
+    {
+      "id": "postal-tp-001",
+      "kind": "true_positive",
+      "text": "Blk 123 Ang Mo Kio Avenue 3, Singapore 670507",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "670507"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-002",
+      "kind": "true_positive",
+      "text": "10 Anson Road, SINGAPORE 799154",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "799154"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-003",
+      "kind": "true_positive",
+      "text": "Address: Paya Lebar Road, Singapore, 092682",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "092682"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-004",
+      "kind": "true_positive",
+      "text": "Ship to Tampines Street 81, Singapore  429912",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "429912"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-005",
+      "kind": "true_positive",
+      "text": "Bedok North Avenue 1 S(126458)",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "126458"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-006",
+      "kind": "true_positive",
+      "text": "Jurong West Street 52 S274870",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "274870"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-007",
+      "kind": "true_positive",
+      "text": "Postal code: 729886",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "729886"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-008",
+      "kind": "true_positive",
+      "text": "postal_code: \"453302\"",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "453302"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-009",
+      "kind": "true_positive",
+      "text": "{\"postalCode\":\"203959\"}",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "203959"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-010",
+      "kind": "true_positive",
+      "text": "postcode=159311",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "159311"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-011",
+      "kind": "true_positive",
+      "text": "Zip: 197712",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "197712"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-012",
+      "kind": "true_positive",
+      "text": "Postal Code 272481",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "272481"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-013",
+      "kind": "true_positive",
+      "text": "Blk 123 Ang Mo Kio Avenue 3, Singapore 309030",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "309030"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-014",
+      "kind": "true_positive",
+      "text": "10 Anson Road, SINGAPORE 527587",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "527587"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-015",
+      "kind": "true_positive",
+      "text": "Address: Paya Lebar Road, Singapore, 530741",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "530741"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-016",
+      "kind": "true_positive",
+      "text": "Ship to Tampines Street 81, Singapore  780824",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "780824"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-017",
+      "kind": "true_positive",
+      "text": "Bedok North Avenue 1 S(308746)",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "308746"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-018",
+      "kind": "true_positive",
+      "text": "Jurong West Street 52 S269743",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "269743"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-019",
+      "kind": "true_positive",
+      "text": "Postal code: 134225",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "134225"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-020",
+      "kind": "true_positive",
+      "text": "postal_code: \"219481\"",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "219481"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-021",
+      "kind": "true_positive",
+      "text": "{\"postalCode\":\"465137\"}",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "465137"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-022",
+      "kind": "true_positive",
+      "text": "postcode=201767",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "201767"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-023",
+      "kind": "true_positive",
+      "text": "Zip: 622403",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "622403"
+        }
+      ]
+    },
+    {
+      "id": "postal-tp-024",
+      "kind": "true_positive",
+      "text": "Postal Code 373815",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "373815"
+        }
+      ]
+    },
+    {
+      "id": "postal-hn-sector-00",
+      "kind": "hard_negative",
+      "text": "Singapore 009046",
+      "expect": [],
+      "note": "Sector 00 does not exist."
+    },
+    {
+      "id": "postal-hn-sector-74",
+      "kind": "hard_negative",
+      "text": "Singapore 744747",
+      "expect": [],
+      "note": "Sector 74 is not used."
+    },
+    {
+      "id": "postal-hn-sector-83",
+      "kind": "hard_negative",
+      "text": "Singapore 833243",
+      "expect": [],
+      "note": "Sectors stop at 82."
+    },
+    {
+      "id": "postal-hn-sector-99",
+      "kind": "hard_negative",
+      "text": "Postal code: 991711",
+      "expect": [],
+      "note": "Sectors stop at 82."
+    },
+    {
+      "id": "postal-hn-no-clue-order",
+      "kind": "hard_negative",
+      "text": "Order 475104",
+      "expect": [],
+      "note": "Six digits with no address clue."
+    },
+    {
+      "id": "postal-hn-no-clue-amount",
+      "kind": "hard_negative",
+      "text": "Amount: 817714",
+      "expect": [],
+      "note": "Six digits with no address clue."
+    },
+    {
+      "id": "postal-hn-no-clue-code",
+      "kind": "hard_negative",
+      "text": "const timeoutMs = 120045",
+      "expect": [],
+      "note": "A numeric constant."
+    },
+    {
+      "id": "postal-hn-seven-digits",
+      "kind": "hard_negative",
+      "text": "Singapore 5344437",
+      "expect": [],
+      "note": "Seven digits."
+    },
+    {
+      "id": "postal-hn-five-digits",
+      "kind": "hard_negative",
+      "text": "Singapore 52012",
+      "expect": [],
+      "note": "Five digits."
+    },
+    {
+      "id": "postal-hn-eight-digits",
+      "kind": "hard_negative",
+      "text": "Singapore 52012345",
+      "expect": [],
+      "note": "Eight digits, and not a phone number (leading 5)."
+    },
+    {
+      "id": "postal-hn-glued-to-word",
+      "kind": "hard_negative",
+      "text": "Singapore587759",
+      "expect": [],
+      "note": "No space or comma after \"Singapore\"."
+    },
+    {
+      "id": "postal-hn-year",
+      "kind": "hard_negative",
+      "text": "Singapore 2026 budget",
+      "expect": [],
+      "note": "A year after the clue."
+    },
+    {
+      "id": "postal-hn-phone",
+      "kind": "hard_negative",
+      "text": "Singapore 6123 4567",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "6123 4567"
+        }
+      ],
+      "note": "A phone number after the clue, reported as PHONE."
+    },
+    {
+      "id": "postal-hn-phone-country-code",
+      "kind": "hard_negative",
+      "text": "Singapore +65 9123 4567",
+      "expect": [
+        {
+          "entity": "PHONE",
+          "value": "+65 9123 4567"
+        }
+      ],
+      "note": "A phone number with country code."
+    },
+    {
+      "id": "postal-hn-nric-like",
+      "kind": "hard_negative",
+      "text": "Ref S520123A",
+      "expect": [],
+      "note": "S, six digits and a letter: neither a postal code nor an NRIC."
+    },
+    {
+      "id": "postal-hn-nric",
+      "kind": "hard_negative",
+      "text": "Member S1234567D",
+      "expect": [
+        {
+          "entity": "NRIC",
+          "value": "S1234567D"
+        }
+      ],
+      "note": "An NRIC (synthetic example from VALIDATORS.md): S then seven digits."
+    },
+    {
+      "id": "postal-hn-zipped",
+      "kind": "hard_negative",
+      "text": "zipped 159802 bytes",
+      "expect": [],
+      "note": "\"zipped\" is not the zip clue."
+    },
+    {
+      "id": "postal-hn-blog-post",
+      "kind": "hard_negative",
+      "text": "Blog post 249717",
+      "expect": [],
+      "note": "\"post\" alone is not a clue."
+    },
+    {
+      "id": "postal-hn-malaysia",
+      "kind": "hard_negative",
+      "text": "Kuala Lumpur 50088, Malaysia",
+      "expect": [],
+      "note": "A five-digit Malaysian postcode."
+    },
+    {
+      "id": "postal-hn-us-zip",
+      "kind": "hard_negative",
+      "text": "ZIP 94043-1351",
+      "expect": [],
+      "note": "A US ZIP+4 code."
+    },
+    {
+      "id": "postal-hn-lowercase-s",
+      "kind": "hard_negative",
+      "text": "s(366193)",
+      "expect": [],
+      "note": "Lowercase s( is a function call, not the S( address clue."
+    },
+    {
+      "id": "postal-mixed",
+      "kind": "mixed",
+      "text": "Deliver to Singapore 275204, order 099955",
+      "expect": [
+        {
+          "entity": "POSTAL",
+          "value": "275204"
+        }
+      ],
+      "note": "Only the digits after the clue are a postal code."
+    }
+  ]
+}
