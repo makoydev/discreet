@@ -4,7 +4,7 @@ Each Discreet feature, the principle or obligation it supports, and the source. 
 
 | Feature | Supports | Source | Status |
 | --- | --- | --- | --- |
-| Personal data replaced with placeholders before it reaches the model | Data minimisation; protecting national identification numbers | PDPA; PDPC Advisory Guidelines on NRIC and other national identification numbers | Planned (D3, D4); mapping pending |
+| Personal data detected with the shared, checksummed sg-pii-rules release (NRIC/FIN, phone, email, card, postal code, unit number, date of birth) | Data minimisation; protecting national identification numbers | PDPA; PDPC Advisory Guidelines on NRIC and other national identification numbers | Detection in place (D3, 369/369 shared cases); replacement planned (D4); mapping pending |
 | Purpose declared in a header; automated eligibility decisions refused | Human accountability for decisions about people | IMDA Model AI Governance Framework for Agentic AI; PDPC guidelines on AI recommendation and decision systems | Planned (D5); mapping pending |
 | Hash-chained audit log with `verify` | Accountability, traceability, incident investigation | IMDA Model AI Governance Framework for Generative AI | Planned (D7); mapping pending |
 | Daily budget, access token, rate limit | Bounding risk and cost | OWASP Top 10 for LLM Applications 2025 (unbounded consumption) | Planned (D6); mapping pending |

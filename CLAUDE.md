@@ -9,4 +9,5 @@ Development started on 2026-10-04 (issue D1). Every pull request is reviewed by 
 - Go 1.27, standard library only (ADR 0001); any new module needs an ADR and an exact version.
 - Run `make check` (gofmt, vet, race tests, govulncheck, build) before every commit; never commit past a failure.
 - Tests use synthetic data only; build secret- and NRIC-shaped strings at runtime.
+- `third_party/sgpiirules` is a vendored sg-pii-rules release: never edit it by hand; update with `scripts/vendor-sg-pii-rules.sh <tag>` (ADR 0003).
 - Issues live in `makoydev/vetted` under the "M2: Discreet v0.1" milestone (D1 = vetted#30).

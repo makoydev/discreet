@@ -10,3 +10,5 @@ All notable changes to this project are documented here. The format follows [Kee
 - CI on every pull request: `gofmt`, `go vet`, `go test -race`, `govulncheck` and a build (`make check`), plus CodeQL for Go and the workflows. All Actions pinned by commit SHA.
 - Evidence files: `CONTROLS.md`, `THREAT_MODEL.md`, `EVALS.md`, `RISKS.md`, `docs/HOW-THIS-WAS-BUILT.md` and the first two decision records.
 - Vetted reviews every pull request (shadow mode until 2026-10-14).
+- Detection engine (`internal/detect`, issue D3): implements the sg-pii-rules specification with Go's `regexp` (RE2), including the five named validators (NRIC/FIN, NRIC look-alikes, payment cards, postal sectors, calendar dates), `value` groups and the overlap rule. Passes all 369 shared conformance cases.
+- sg-pii-rules `v0.2.0-rc.1` vendored in `third_party/sgpiirules` and embedded in the binary; a test re-checks every file against `SHA256SUMS` (ADR 0003). `scripts/vendor-sg-pii-rules.sh <tag>` updates it.
