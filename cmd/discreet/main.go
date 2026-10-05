@@ -8,9 +8,12 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"os"
+
+	"github.com/makoydev/discreet/internal/audit"
 )
 
 // version is overridden at release time with -ldflags "-X main.version=...".
@@ -34,12 +37,13 @@ Runs the gateway: an OpenAI-compatible endpoint that swaps personal data for
 placeholders before the request reaches the model. Not built yet (issue D5).
 `
 
-const auditUsage = `Usage: discreet audit <verify|export>
+const auditUsage = `Usage: discreet audit <verify|export> [-log path]
 
-  verify   check every record's hash chain; fails if any byte was changed
-  export   write the audit log as CSV
+  verify        check every record's hash chain; fails, naming the record,
+                if any byte was changed, a record deleted or two swapped
+  export -csv   write the verified log as CSV to standard output
 
-Not built yet (issue D7).
+The log defaults to $DISCREET_AUDIT_LOG, or discreet-audit.jsonl.
 `
 
 func main() {
@@ -78,8 +82,7 @@ func run(args []string, stdout, stderr io.Writer) int {
 		}
 		switch args[1] {
 		case "verify", "export":
-			fmt.Fprintf(stderr, "discreet audit %s: not built yet (issue D7)\n", args[1])
-			return 1
+			return runAudit(args[1], args[2:], stdout, stderr)
 		}
 		fmt.Fprintf(stderr, "discreet audit: unknown subcommand %q\n\n%s", args[1], auditUsage)
 		return 2
@@ -90,4 +93,43 @@ func run(args []string, stdout, stderr io.Writer) int {
 
 func wantsHelp(args []string) bool {
 	return len(args) > 0 && (args[0] == "-h" || args[0] == "--help" || args[0] == "help")
+}
+
+func defaultLogPath() string {
+	if p := os.Getenv("DISCREET_AUDIT_LOG"); p != "" {
+		return p
+	}
+	return "discreet-audit.jsonl"
+}
+
+// runAudit verifies or exports the audit log. Neither needs the HMAC key:
+// the chain is plain SHA-256, so anyone holding the file can check it.
+func runAudit(sub string, args []string, stdout, stderr io.Writer) int {
+	fs := flag.NewFlagSet("discreet audit "+sub, flag.ContinueOnError)
+	fs.SetOutput(stderr)
+	path := fs.String("log", defaultLogPath(), "audit log file")
+	fs.Bool("csv", true, "export as CSV (the only format)")
+	if err := fs.Parse(args); err != nil {
+		return 2
+	}
+	f, err := os.Open(*path)
+	if err != nil {
+		fmt.Fprintf(stderr, "discreet audit %s: %v\n", sub, err)
+		return 1
+	}
+	defer f.Close()
+	if sub == "export" {
+		if err := audit.ExportCSV(f, stdout); err != nil {
+			fmt.Fprintf(stderr, "discreet audit export: not exported, the log is broken: %v\n", err)
+			return 1
+		}
+		return 0
+	}
+	s, err := audit.Verify(f)
+	if err != nil {
+		fmt.Fprintf(stderr, "FAILED: %v\n", err)
+		return 1
+	}
+	fmt.Fprintf(stdout, "OK: %d records, chain intact.\nHead hash: %s\n", s.Records, s.HeadHash)
+	return 0
 }

@@ -2,8 +2,12 @@ package main
 
 import (
 	"bytes"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
+
+	"github.com/makoydev/discreet/internal/audit"
 )
 
 func TestRun(t *testing.T) {
@@ -22,8 +26,6 @@ func TestRun(t *testing.T) {
 		{"serve is not built yet", []string{"serve"}, 1, "", "not built yet (issue D5)"},
 		{"audit help", []string{"audit", "--help"}, 0, "verify", ""},
 		{"audit without a subcommand", []string{"audit"}, 2, "", "Usage: discreet audit"},
-		{"audit verify is not built yet", []string{"audit", "verify"}, 1, "", "audit verify: not built yet (issue D7)"},
-		{"audit export is not built yet", []string{"audit", "export"}, 1, "", "audit export: not built yet (issue D7)"},
 		{"unknown audit subcommand", []string{"audit", "delete"}, 2, "", `unknown subcommand "delete"`},
 		{"unknown command", []string{"launch"}, 2, "", `unknown command "launch"`},
 	}
@@ -51,5 +53,39 @@ func check(t *testing.T, stream, got, want string) {
 	}
 	if !strings.Contains(got, want) {
 		t.Errorf("%s = %q, want it to contain %q", stream, got, want)
+	}
+}
+
+func TestAuditVerifyAndExport(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "audit.jsonl")
+	l, err := audit.Open(path, []byte("test-key-0123456789abcdefghijklmnop"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	l.Append(audit.Record{Tenant: "demo", Decision: audit.Allowed})
+	l.Append(audit.Record{Tenant: "demo", Decision: audit.RefusedPurpose})
+	l.Close()
+
+	var out, errOut bytes.Buffer
+	if code := run([]string{"audit", "verify", "-log", path}, &out, &errOut); code != 0 || !strings.Contains(out.String(), "OK: 2 records") {
+		t.Fatalf("verify: code %d, out %q, err %q", code, out.String(), errOut.String())
+	}
+	out.Reset()
+	if code := run([]string{"audit", "export", "-csv", "-log", path}, &out, &errOut); code != 0 || !strings.HasPrefix(out.String(), "seq,time,") {
+		t.Fatalf("export: code %d, out %q", code, out.String())
+	}
+
+	data, _ := os.ReadFile(path)
+	os.WriteFile(path, bytes.Replace(data, []byte("refused_purpose"), []byte("allowed"), 1), 0o600)
+	out.Reset()
+	errOut.Reset()
+	if code := run([]string{"audit", "verify", "-log", path}, &out, &errOut); code != 1 || !strings.Contains(errOut.String(), "FAILED: record on line 2") {
+		t.Errorf("tampered verify: code %d, err %q", code, errOut.String())
+	}
+	if code := run([]string{"audit", "export", "-log", path}, &out, &errOut); code != 1 {
+		t.Errorf("a broken log was exported (code %d)", code)
+	}
+	if code := run([]string{"audit", "verify", "-log", filepath.Join(t.TempDir(), "missing")}, &out, &errOut); code != 1 {
+		t.Errorf("missing log: code %d", code)
 	}
 }
