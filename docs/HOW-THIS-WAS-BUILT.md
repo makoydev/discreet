@@ -27,6 +27,8 @@
 | 2026-10-04 | Deliberate break: `discreet serve` made to exit 0 | The test failed (`exit code = 0, want 1`); restored from backup |
 | 2026-10-05 | sg-pii-rules `v0.2.0-rc.1` vendored by script from the release tag | Every file matched the release's `SHA256SUMS` |
 | 2026-10-05 | All 369 shared conformance cases through the Go engine | 369 / 369 pass, first run |
+| 2026-10-05 | Go YAML libraries (Go module proxy, GitHub) | `gopkg.in/yaml.v3` archived since April 2025; used the maintained fork `go.yaml.in/yaml/v3` v3.0.5 |
+| 2026-10-05 | Three deliberate breaks of the placeholder session: vault keys without the session, no placeholder reuse, redact restored | Each failed at least one test; restored from backup |
 | 2026-10-05 | Five deliberate breaks of the engine and vendored rules (EVALS.md) | Four caught at once. The reversed overlap tie-break was not: no shared case covers it. Added toy-detector overlap tests (now 3 fail on that break) and opened vetted#44 for the shared suite |
 
 ## What the AI got wrong, and how it was caught
