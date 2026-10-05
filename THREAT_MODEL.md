@@ -21,8 +21,8 @@
 | --- | --- | --- |
 | Personal data the detectors miss reaches the model | Shared conformance suite with hard negatives (369/369 pass in Go); measured recall published in EVALS | D3 (done), D9 |
 | Rules silently changed or swapped | Vendored release checked against `SHA256SUMS` on every test run; embedded in the binary (ADR 0003) | D3 (done) |
-| The vault leaks values through logs or errors | Values encrypted in memory, short expiry, a test that scans logs for planted values | D4 |
-| The model invents placeholders to extract other values | Only placeholders issued for that request are rehydrated | D4 |
+| The vault leaks values through logs or errors | Values encrypted in memory (AES-256-GCM, per-process key), bound to their key, deleted when the request ends, expired after 10 minutes; vault and session print as redacted (tests) | D4 (done); log scan in D5 |
+| The model invents placeholders to extract other values | Only placeholders issued for that request are rehydrated (test) | D4 (done) |
 | Someone edits the audit log to hide a request | SHA-256 hash chain; `audit verify` names the first broken record | D7 |
 | Short identifiers are guessed from audit hashes | HMAC-SHA-256 with a server secret instead of plain hashes | D7 |
 | The public demo is used to spend money | Mock model unless a valid access token is present; daily budget; rate limit | D6, D10 |
