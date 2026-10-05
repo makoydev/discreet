@@ -15,6 +15,10 @@ make check            # gofmt, go vet, go test -race, govulncheck, build
 ./bin/discreet audit export -csv -log discreet-audit.jsonl > audit.csv
 ```
 
+## Try the demo
+
+Run `discreet serve` (below) and open <http://localhost:8080/>: four panes show what the app sent, what the AI saw, what it answered and what came back, with the audit record. It always uses the free mock model.
+
 ## Run it
 
 ```sh

@@ -46,6 +46,9 @@ type harness struct {
 
 func newHarness(t *testing.T, policy *protect.Policy, up upstream.Client) *harness {
 	t.Helper()
+	if policy == nil {
+		policy = protect.DefaultPolicy()
+	}
 	engine, err := detect.Default()
 	if err != nil {
 		t.Fatal(err)
