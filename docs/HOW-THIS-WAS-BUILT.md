@@ -13,6 +13,12 @@
 - Code is broken deliberately to prove the tests catch it, then restored from a backup.
 - Facts that may have changed since the AI's training (tool versions, prices, APIs) are checked against primary sources before use.
 
+## Milestone 2 in numbers (2026-10-05)
+
+- Plan approved by Michael on 2026-10-02: 13 issues. By 2026-10-05, 11 pull requests were merged into `next` by Claude Code (labelled `ai-merged`), each green on CI and reviewed by Vetted in shadow mode. Two items wait for things only Michael or the calendar can provide: the Fly.io account (D10) and the pilot switch on 14 Oct (V1).
+- 458 Go tests; every issue's code was broken deliberately and the tests caught it, with two breaks first written wrongly (they failed to compile) and redone.
+- AI mistakes this milestone are listed below, with how each was caught. None reached `next` uncaught: they were caught by tests, the gate, the merge helper's refusal, or reading output.
+
 ## Decisions changed on human review
 
 | Date | Proposed by Claude Code | Changed by Michael to | Where |
