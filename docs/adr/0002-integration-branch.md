@@ -1,6 +1,6 @@
 # 0002. Same integration-branch workflow as Vetted
 
-Status: drafted by Claude Code, awaiting Michael's review
+Status: accepted. Drafted by Claude Code; reviewed and accepted by Michael Mendoza on 2026-10-06.
 Date: 2026-10-04
 
 ## Context
