@@ -17,6 +17,23 @@ make check            # gofmt, go vet, go test -race, govulncheck, build
 
 ## Try the demo
 
+**Live (once deployed):** <https://discreet-demo.fly.dev>. Mock model only; see [`docs/DEPLOY.md`](docs/DEPLOY.md).
+
+**Three-minute demo path:** open the page, press *Load a made-up example* to cycle through five scenarios, and compare pane 1 (what the app sent) with pane 2 (what the AI saw). The fifth scenario asks for an automated eligibility decision: it's refused before any model is called, and the audit record shows why.
+
+**Five-minute quickstart, on a clean machine with Docker:**
+
+```sh
+git clone https://github.com/makoydev/discreet && cd discreet
+docker build -t discreet .
+docker run -p 8080:8080 -e DISCREET_HMAC_KEY="$(openssl rand -hex 32)" discreet
+# open http://localhost:8080/
+```
+
+Or with Go 1.27: `make check && ./bin/discreet serve` after setting `DISCREET_HMAC_KEY`.
+
+### Running from source
+
 Run `discreet serve` (below) and open <http://localhost:8080/>: four panes show what the app sent, what the AI saw, what it answered and what came back, with the audit record. It always uses the free mock model.
 
 ## Run it

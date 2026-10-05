@@ -32,4 +32,6 @@
 | The public demo is used to spend money | Mock model unless a valid access token is present (a wrong or missing token gets the mock, test); worst-case cost reserved against a hard daily budget that survives restarts (tests, including 100 parallel requests); 30 requests a minute per address (ADR 0007) | D6 (done), D10 |
 | An access token leaks from memory or logs | Only SHA-256 hashes kept, compared in constant time; tokens and provider keys never logged; the caller's token is never forwarded | D6 (done) |
 | The demo page is used to inject script or exfiltrate what people type | Strict Content-Security-Policy (own scripts only, connections only to this server), user text inserted as text never HTML, no third-party scripts; always the mock model (test) | D8 (done) |
+| The public demo is reconfigured to reach a paid model | `fly.toml` never sets an upstream; `docs/DEPLOY.md` forbids setting one as a secret; without an upstream every request gets the mock (ADR 0007, ADR 0009) | D10 (done) |
+| The container is used to escalate on the host | Distroless image (no shell), non-root user, static binary, images pinned by digest, built and smoke-tested in CI | D10 (done) |
 | A compromised dependency or Action | Standard library only (ADR 0001), SHA-pinned Actions, Dependabot, `govulncheck`, CodeQL | D1 |
