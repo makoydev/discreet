@@ -132,3 +132,23 @@ func TestServeAnswersAndStops(t *testing.T) {
 		t.Errorf("exit code %d", code)
 	}
 }
+
+func TestServeRefusesAnUnpricedModel(t *testing.T) {
+	t.Setenv("DISCREET_HMAC_KEY", "test-key-0123456789abcdefghijklmnop")
+	t.Setenv("DISCREET_UPSTREAM_URL", "http://127.0.0.1:1/v1")
+	t.Setenv("DISCREET_UPSTREAM_MODEL", "some-other-model")
+	var errOut bytes.Buffer
+	if code := run([]string{"serve", "-audit-log", filepath.Join(t.TempDir(), "a.jsonl")}, io.Discard, &errOut); code != 1 || !strings.Contains(errOut.String(), "no known price") {
+		t.Errorf("code %d, stderr %q", code, errOut.String())
+	}
+}
+
+func TestServeRefusesWeakAccessTokens(t *testing.T) {
+	t.Setenv("DISCREET_HMAC_KEY", "test-key-0123456789abcdefghijklmnop")
+	t.Setenv("DISCREET_UPSTREAM_URL", "http://127.0.0.1:1/v1")
+	t.Setenv("DISCREET_ACCESS_TOKENS", "acme:short")
+	var errOut bytes.Buffer
+	if code := run([]string{"serve", "-audit-log", filepath.Join(t.TempDir(), "a.jsonl")}, io.Discard, &errOut); code != 1 {
+		t.Errorf("code %d, stderr %q", code, errOut.String())
+	}
+}

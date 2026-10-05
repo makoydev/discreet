@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"io"
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
@@ -33,9 +34,12 @@ const (
 var planted = []string{nric, phone, email, card, "4111111111111111"}
 
 type harness struct {
-	srv     *httptest.Server
-	mock    *upstream.Mock
-	logs    *bytes.Buffer
+	srv  *httptest.Server
+	mock *upstream.Mock
+	logs interface {
+		io.Writer
+		String() string
+	}
 	logPath string
 	audit   *audit.Log
 }

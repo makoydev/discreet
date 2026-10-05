@@ -18,6 +18,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -26,6 +27,7 @@ import (
 	"github.com/makoydev/discreet/internal/detect"
 	"github.com/makoydev/discreet/internal/gateway"
 	"github.com/makoydev/discreet/internal/protect"
+	"github.com/makoydev/discreet/internal/upstream"
 	"github.com/makoydev/discreet/internal/vault"
 	"github.com/makoydev/discreet/third_party/sgpiirules"
 )
@@ -54,8 +56,25 @@ it back in the answer, and records every request in the audit log.
 Requires DISCREET_HMAC_KEY (at least 32 characters, e.g. openssl rand -hex 32).
 Callers must send an X-Discreet-Purpose header.
 
-Environment: DISCREET_ADDR, DISCREET_AUDIT_LOG, DISCREET_POLICY,
-DISCREET_HMAC_KEY.
+By default every request goes to a free mock model. To reach a real model,
+set DISCREET_UPSTREAM_URL and give callers access tokens; anyone without a
+valid token still gets the mock.
+
+  DISCREET_ADDR                   listen address (default :8080)
+  DISCREET_AUDIT_LOG              audit log file (default discreet-audit.jsonl)
+  DISCREET_POLICY                 policy YAML (default: built in)
+  DISCREET_UPSTREAM_URL           e.g. https://api.openai.com/v1 or http://localhost:11434/v1
+  DISCREET_UPSTREAM_API_KEY       the provider's key
+  DISCREET_UPSTREAM_MODEL         default gpt-6-luna
+  DISCREET_UPSTREAM_TOKEN_PARAM   max_completion_tokens (OpenAI) or max_tokens (Ollama)
+  DISCREET_PRICE_INPUT_PER_M      US$ per million input tokens (known for gpt-6-luna)
+  DISCREET_PRICE_OUTPUT_PER_M     US$ per million output tokens
+  DISCREET_ACCESS_TOKENS          tenant:token,tenant2:token2 (tokens of 24+ characters)
+  DISCREET_DAILY_BUDGET_USD       hard daily limit for the real model (default 0.20)
+  DISCREET_MAX_OUTPUT_TOKENS      output cap per request (default 2048)
+  DISCREET_REASONING_EFFORT       optional, e.g. low
+  DISCREET_RATE_LIMIT_PER_MINUTE  per client address (default 30, bursts of 10)
+  DISCREET_CLIENT_IP_HEADER       header set by a trusted proxy, e.g. Fly-Client-IP
 `
 
 const auditUsage = `Usage: discreet audit <verify|export> [-log path]
@@ -208,8 +227,25 @@ func runServe(ctx context.Context, args []string, stderr io.Writer) int {
 	defer log.Close()
 
 	logger := slog.New(slog.NewJSONHandler(stderr, nil))
+	cfg := gateway.Config{Engine: engine, Policy: policy, Vault: v, Audit: log, Logger: logger}
+	rate, err := envInt("DISCREET_RATE_LIMIT_PER_MINUTE", 30)
+	if err != nil {
+		return fail(err)
+	}
+	cfg.RateLimit = gateway.NewRateLimiter(rate, 10, os.Getenv("DISCREET_CLIENT_IP_HEADER"))
+	upstreamInfo := "mock only"
+	if url := os.Getenv("DISCREET_UPSTREAM_URL"); url != "" {
+		if err := configureReal(&cfg, url, log.SpentToday); err != nil {
+			return fail(err)
+		}
+		upstreamInfo = fmt.Sprintf("%s for %d access token(s), otherwise mock; budget US$%.2f/day; worst case US$%.4f per request",
+			cfg.Model, cfg.Tokens.Len(), mustFloat("DISCREET_DAILY_BUDGET_USD", 0.20), cfg.Price.Ceiling(64<<10, 1, cfg.MaxOutputTokens))
+		if cfg.Tokens.Len() == 0 {
+			logger.Warn("DISCREET_UPSTREAM_URL is set but there are no DISCREET_ACCESS_TOKENS, so every request gets the mock")
+		}
+	}
 	srv := &http.Server{
-		Handler:           gateway.New(gateway.Config{Engine: engine, Policy: policy, Vault: v, Audit: log, Logger: logger}).Handler(),
+		Handler:           gateway.New(cfg).Handler(),
 		ReadHeaderTimeout: 5 * time.Second,
 		ReadTimeout:       30 * time.Second,
 		WriteTimeout:      120 * time.Second,
@@ -221,7 +257,7 @@ func runServe(ctx context.Context, args []string, stderr io.Writer) int {
 	}
 	version, _ := sgpiirules.Files.ReadFile("VERSION")
 	head, seq := log.Head()
-	logger.Info("discreet listening", "addr", ln.Addr().String(), "upstream", "mock",
+	logger.Info("discreet listening", "addr", ln.Addr().String(), "upstream", upstreamInfo,
 		"rules", "sg-pii-rules "+strings.TrimSpace(string(version)), "audit_log", *logPath, "audit_records", seq, "audit_head", head)
 
 	go func() {
@@ -250,4 +286,73 @@ func runServe(ctx context.Context, args []string, stderr io.Writer) int {
 	}
 	logger.Info("discreet stopped")
 	return 0
+}
+
+// configureReal sets up the real model from the environment. Secrets are
+// read here and never logged.
+func configureReal(cfg *gateway.Config, url string, spentToday func() float64) error {
+	tokens, err := gateway.ParseTokens(os.Getenv("DISCREET_ACCESS_TOKENS"))
+	if err != nil {
+		return err
+	}
+	model := envOr("DISCREET_UPSTREAM_MODEL", "gpt-6-luna")
+	price, known := gateway.KnownPrices[model]
+	in, inSet := os.LookupEnv("DISCREET_PRICE_INPUT_PER_M")
+	out, outSet := os.LookupEnv("DISCREET_PRICE_OUTPUT_PER_M")
+	if inSet || outSet {
+		if price.Input, err = strconv.ParseFloat(in, 64); err != nil {
+			return fmt.Errorf("DISCREET_PRICE_INPUT_PER_M: %w", err)
+		}
+		if price.Output, err = strconv.ParseFloat(out, 64); err != nil {
+			return fmt.Errorf("DISCREET_PRICE_OUTPUT_PER_M: %w", err)
+		}
+	} else if !known {
+		return fmt.Errorf("no known price for %s: set DISCREET_PRICE_INPUT_PER_M and DISCREET_PRICE_OUTPUT_PER_M (0 for a local model)", model)
+	}
+	budget, err := envFloat("DISCREET_DAILY_BUDGET_USD", 0.20)
+	if err != nil {
+		return err
+	}
+	maxOut, err := envInt("DISCREET_MAX_OUTPUT_TOKENS", 2048)
+	if err != nil {
+		return err
+	}
+	cfg.Real = &upstream.OpenAICompatible{
+		BaseURL:         url,
+		APIKey:          os.Getenv("DISCREET_UPSTREAM_API_KEY"),
+		TokenParam:      envOr("DISCREET_UPSTREAM_TOKEN_PARAM", "max_completion_tokens"),
+		ReasoningEffort: os.Getenv("DISCREET_REASONING_EFFORT"),
+	}
+	cfg.Tokens, cfg.Model, cfg.Price, cfg.MaxOutputTokens = tokens, model, price, maxOut
+	cfg.Budget = gateway.NewBudget(budget, spentToday)
+	return nil
+}
+
+func envInt(name string, fallback int) (int, error) {
+	v := os.Getenv(name)
+	if v == "" {
+		return fallback, nil
+	}
+	n, err := strconv.Atoi(v)
+	if err != nil || n <= 0 {
+		return 0, fmt.Errorf("%s must be a positive whole number", name)
+	}
+	return n, nil
+}
+
+func envFloat(name string, fallback float64) (float64, error) {
+	v := os.Getenv(name)
+	if v == "" {
+		return fallback, nil
+	}
+	f, err := strconv.ParseFloat(v, 64)
+	if err != nil || f < 0 {
+		return 0, fmt.Errorf("%s must be a number of US dollars", name)
+	}
+	return f, nil
+}
+
+func mustFloat(name string, fallback float64) float64 {
+	f, _ := envFloat(name, fallback)
+	return f
 }
