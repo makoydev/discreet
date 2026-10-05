@@ -43,6 +43,10 @@ Run `./bin/discreet serve --help` for every setting (budget, output cap, rate li
 
 The mock model shows what a real model would have received (placeholders only), and the answer comes back with the real values restored. Any OpenAI client works by pointing `base_url` at `http://localhost:8080/v1` and adding the `X-Discreet-Purpose` header. The example NRIC is synthetic.
 
+## Measured
+
+On 5,000 synthetic samples from an independent generator: **76.5% recall** overall, 100% on every supported writing style, **92.3% precision** (false alarms are only bare eight-digit numbers read as phones). Discreet adds about **3 ms** per request, almost all of it writing the audit record safely to disk. Details and limits: [`EVALS.md`](EVALS.md).
+
 ## Evidence
 
 [`CONTROLS.md`](CONTROLS.md) · [`THREAT_MODEL.md`](THREAT_MODEL.md) · [`EVALS.md`](EVALS.md) · [`RISKS.md`](RISKS.md) · [`CHANGELOG.md`](CHANGELOG.md) · [decision records](docs/adr/) · [how this was built](docs/HOW-THIS-WAS-BUILT.md)

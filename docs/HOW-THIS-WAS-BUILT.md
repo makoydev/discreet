@@ -35,6 +35,8 @@
 | 2026-10-05 | `gpt-6-luna` on `/v1/chat/completions` and its price (OpenAI's model page, primary) | Supported; US$0.10 / US$0.50 per million input / output tokens |
 | 2026-10-05 | Deliberate breaks of tokens, budget and rate limit | Each failed tests once the token break was redone so it compiled; restored from backup |
 | 2026-10-05 | Demo page in headless Chrome at 1280 px (light and dark) and 390 px, clicking through the examples | No Content-Security-Policy violations or script errors; one 404 for the browser's default icon request, fixed with an inline empty icon; audit log verified afterwards (7 records) |
+| 2026-10-05 | Benchmark (5,000 samples) and latency (2,000 requests per run) | Results in EVALS.md. A suspicion that the audit flush dominated latency was measured rather than assumed: 2.9 ms of the 3.0 ms |
+| 2026-10-05 | Deliberate break: the generator ignoring its seed | The determinism test failed; restored from backup |
 | 2026-10-05 | Five deliberate breaks of the engine and vendored rules (EVALS.md) | Four caught at once. The reversed overlap tie-break was not: no shared case covers it. Added toy-detector overlap tests (now 3 fail on that break) and opened vetted#44 for the shared suite |
 
 ## What the AI got wrong, and how it was caught
